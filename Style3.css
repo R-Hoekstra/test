@@ -1,0 +1,311 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 120px;
+  padding: 0 20px;
+  position: fixed; /* Keep header at the top during scrolling */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(244, 244, 244, 0); /* Transparent initially */
+  transition: background-color 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
+  opacity: 1; /* Fully visible by default */
+  transform: translateY(0); /* In position by default */
+}
+
+/* Hidden State for Scrolling Down */
+#header.hidden {
+  opacity: 0;
+  /* transform: translateY(-100%); Slide up out of view */
+  pointer-events: none; /* Inaccessible when hidden */
+}
+
+/* Visible State for Scrolling Up */
+#header.visible {
+  opacity: 1;
+  /* transform: translateY(0); Slide back in */
+  background-color: rgba(244, 244, 244, 0.9); /* Light background */
+}
+
+/* Name Container */
+#name-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+#name-container a {
+  text-decoration: none; /* Remove the underline */
+  color: inherit;        /* Use the existing text color */
+  display: inline-block; /* Make the whole element clickable */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+#name-container a:hover .name {
+  color: rgb(127, 23, 52); /* Change color only for the names */
+}
+
+.name {
+  margin: 0;
+  font-size: 36px;
+  color: #333;
+  line-height: 1.2;
+}
+
+/* Navigation Menu (default horizontal) */
+#wb_CssMenu1 {
+  display: flex;
+  z-index: 2;
+  position: absolute;
+  right: 20px;
+  text-align: right;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  flex-direction: row; /* Horizontal menu by default */
+}
+
+.nav-item {
+  margin: 0 10px;
+  position: relative;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1.6em;
+  transition: none;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 5px;
+  transform: scale(0);
+  z-index: -1;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-item:hover::before {
+  transform: scale(1);
+}
+
+.nav-link:hover {
+  color: rgb(127, 23, 52);
+}
+
+/* Lightbox Links */
+a[data-lightbox="gallery"] {
+  display: block;
+  width: 40%;
+  margin: 30px auto;
+}
+
+a[data-lightbox="gallery"] img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+a[data-lightbox="gallery"] img:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Section Styling */
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+#section1.bg-image {
+  background-image: url('./images/communionandprocession.jpg');
+}
+
+#section2.bg-image {
+  background-image: url('./images/beyondthehorizon.jpg');
+}
+
+#section3.bg-image {
+  background-image: url('./images/headbanger.jpg');
+}
+
+#section4.bg-image {
+  background-image: url('./images/aslongasyouarenear.jpg');
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%; /* Adjust this to control wrapper height relative to the section */
+  width: 80%; /* Adjust for consistent width across sections */
+  margin-top: 8%; /* Center the wrapper in the section */
+  border-radius: 10px; /* Rounded corners for the wrapper */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+}
+
+.content {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 5px;
+  color: #fff; /* Text color */
+  text-align: center;
+  width: 100%; /* Content fills the wrapper */
+  height: 100%; /* Adjust content to fill wrapper */
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Alternating Section Backgrounds */
+section:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+section:nth-child(even) {
+  background-color: #fff;
+}
+
+/* Mobile Responsiveness (below 1000px) */
+@media (max-width: 1200px) {
+  #header {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 20px;
+  }
+
+  /* Navigation Menu */
+  #wb_CssMenu1 {
+    position: absolute;
+    top: 70%;
+     /*top: calc(20px + 30px + 10px); Dynamically adjust position based on the toggle button height */
+    right: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Name Container Centering */
+  #name-container {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by half its own width and height */
+    text-align: center;
+  }
+
+  /* Menu overlay background effect */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0; /* Initially, no width */
+    height: 100vh; /* Full height of the screen */
+    background-color: #333; 
+    z-index: 1; /* Behind the menu but in front of the main content */
+    transition: width 0.3s ease; /* Smooth transition */
+  }
+
+  .menu-overlay.active {
+    width: 125px; /* Show the overlay when active */
+  }
+
+  /* Style for the toggle button */
+  .menu-toggle {
+    display: block;
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    position: absolute;
+    right: 40px;
+    top: 50%; /* Position at the middle of the header */
+    transform: translateY(-50%); /* Offset by half its height for perfect centering */
+    z-index: 100; /* Ensure the toggle is in front */
+  }
+
+  .menu-toggle::before {
+    content: "☰";
+  }
+
+  .menu-toggle.active::before {
+    content: "✖";
+    color: rgba(244, 244, 244);
+  }
+
+  /* Navigation menu items */
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: right;
+  }
+
+  .nav-link {
+    font-size: 1.2em;
+    color: rgba(244, 244, 244);
+  }
+
+  .nav-link:hover {
+    color: rgb(127, 23, 52);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); /* Stronger and darker shadow */
+  }
+}
+
+/* Keep menu visible above 1000px */
+@media (min-width: 1201px) {
+  .menu-toggle {
+    display: none; /* Hide the toggle button on larger screens */
+  }
+
+  .nav {
+    display: flex; /* Keep the horizontal menu visible */
+  }
+}
