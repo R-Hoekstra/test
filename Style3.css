@@ -167,22 +167,21 @@ section {
 
 .content-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* This ensures equal spacing between the two content divs */
   align-items: center;
   height: 60%; /* Adjust this to control wrapper height relative to the section */
-  width: 80%; /* Adjust for consistent width across sections */
-  margin-top: 8%; /* Center the wrapper in the section */
+  width: 80%; /* Occupy full width of the page */
+  margin-top: 4%; /* Center the wrapper in the section */
   border-radius: 10px; /* Rounded corners for the wrapper */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
+  gap: 20%
 }
 
 .content {
   background: rgba(0, 0, 0, 0.5);
-  padding: 20px;
   border-radius: 5px;
   color: #fff; /* Text color */
   text-align: center;
-  width: 100%; /* Content fills the wrapper */
+  width: 48%; /* Each content div takes up about half the width of the wrapper */
   height: 100%; /* Adjust content to fill wrapper */
 }
 
@@ -204,6 +203,15 @@ section:nth-child(even) {
   background-color: #fff;
 }
 
+/* Footer Styling */
+#footer {
+  background-color: rgba(102, 102, 102, 0.6);  /* Black with transparency */
+  color: #333; /* The specified color with 80% opacity */
+  text-align: center;
+  
+  width: 100%;
+}
+
 /* Mobile Responsiveness (below 1000px) */
 @media (max-width: 1200px) {
   #header {
@@ -212,12 +220,19 @@ section:nth-child(even) {
     padding: 0 20px;
   }
 
+  .name {
+    margin: 0;
+    font-size: 25px;
+    color: #333;
+    line-height: 1.2;
+  }
+
   /* Navigation Menu */
   #wb_CssMenu1 {
     position: absolute;
     top: 70%;
      /*top: calc(20px + 30px + 10px); Dynamically adjust position based on the toggle button height */
-    right: 35px;
+    right: 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -245,7 +260,8 @@ section:nth-child(even) {
   }
 
   .menu-overlay.active {
-    width: 125px; /* Show the overlay when active */
+    width: 100px; /* Show the overlay when active */
+    display: block; /* Visible when menu is active */
   }
 
   /* Style for the toggle button */
@@ -257,7 +273,7 @@ section:nth-child(even) {
     cursor: pointer;
     color: #333;
     position: absolute;
-    right: 40px;
+    right: 20px;
     top: 50%; /* Position at the middle of the header */
     transform: translateY(-50%); /* Offset by half its height for perfect centering */
     z-index: 100; /* Ensure the toggle is in front */
