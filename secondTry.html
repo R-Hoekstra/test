@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Style3.css" rel="stylesheet">
+    <link href="StyleInfo.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body style="background-color: #09141e;"> <!--class="no-header-bg"  -- add this if you want to hide the bg of the header--> 
+    <!-- Header -->
+    <div id="header">
+        <a href="HomePage.html" class="home-link">
+            <h1 class="home-name">THIJS SMIT</h1>
+        </a>
+        <div id="name-container">
+            <a class="nav-link-header" href="#">
+                <h1 class="name">THE WOOD COMMUNITY</h1>
+            </a>
+        </div>
+        <!-- The Hamburger Button (Only one) -->
+        <button class="menu-toggle"></button>  <!-- Button will hold the hamburger icon -->
+        <div class="menu-overlay"></div> <!-- Background Overlay -->       
+        <div id="wb_CssMenu1">
+            <ul id="CssMenu1" class="nav">
+               <!-- <li role="menuitem" class="nav-item"><a class="nav-link" href="#sectionVaction1">Contact</a></li> -->
+               <li role="menuitem" class="nav-item nav-title"><a class="nav-link-title">HOME PAGE</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="HomePage.html">Thijs Smit</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">PROJECTS</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="secondTry.html">Wood Community</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="CultureRoof.html">Culture Roof</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="sportparkMarslanden.html">Sportpark</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="vacationhome.html">Vacation Home</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">CONTACT</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="contactPage.html">Contact Me</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Full-Screen Sections with Background Images -->
+    <main>
+        <div class="vertical-line"></div>
+        <div class="content-wrapper-info">
+            <div class="content2">
+              
+              <!-- First Block -->
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/finalrender-000_1 - Photo.jpg" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <p class="section-description">The Wood community offers a wide variety of apartments 
+                    and vibrant community spaces on both the Ground Floor 
+                    and First Floor. The First Floor is seamlessly aligned with 
+                    the sloping courtyard on the west side of the building. 
+                    The first entrance of the courtyard is on the westside of 
+                    the apartment blocks. A second entrance to the courtyard 
+                    was created by making a cut through the building on the 
+                    northside.</p>
+                  <p class="section-description">The facade features thoughtful setbacks that not only 
+                    create inviting outdoor areas but also offer a wide variety 
+                    of apartments.</p>
+                </div>
+              </div>
+          
+              <!-- Second Block -->
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/finalrender-000_3 - Photo.jpg" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <p class="section-description">The courtyard is designed with height 
+                    differences which creates interesting 
+                    spaces with a good overview on the 
+                    courtyard. The terraces are accessible 
+                    for everyone because of the ramps in the  
+                    middle of the courtyard. </p>
+                  <div class="image-details">
+                    <p><span class="label">Location:</span> <span class="value">Gothenburg, Sweden</span></p>
+                    <p><span class="label">Function:</span> <span class="value">Residential</span></p>
+                    <p><span class="label">Area:</span> <span class="value">566m²</span></p>
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </div>  
+    </main>
+    <!-- Modal for Image Popup -->
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div id="caption"></div>
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="scriptAttempt4.js"></script>
+</body>
+</html>

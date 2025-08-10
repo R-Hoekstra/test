@@ -1,0 +1,692 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Custom text selection color for the entire page */
+::selection {
+  background: #fff; /* Replace with your preferred color */
+  color: #000000;      /* Replace with your preferred text color */
+}
+
+::-moz-selection {
+  background: #fff;
+  color: #000000;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+#header {
+  display: flex;
+  flex-direction: row; /* Default row alignment for larger screens */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  position: fixed; /* Keep header at the top during scrolling */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(244, 244, 244, 0); /* Transparent initially */
+  transition: background-color 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
+  opacity: 1;
+}
+
+#header.hidden {
+  opacity: 0;
+  pointer-events: none; /* Inaccessible when hidden */
+}
+
+#header.visible {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.8); /* Light background */
+}
+
+.home-link {
+  text-decoration: none;
+  margin-right: auto; /* pushes everything else to the right */
+  z-index: 100;
+  position: absolute;
+}
+
+.home-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
+}
+
+.home-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.home-name {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Name Container */
+/* #name-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+} */
+
+#name-container {
+  position: static; /* Reset absolute positioning */
+  flex-grow: 1; /* Allow it to take available space */
+  text-align: center; /* Center-align text within the container */
+}
+
+#name-container a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+/* #name-container a:hover .name {
+  color: #ffffff80;
+} */
+
+#name-container a .name {
+  position: relative;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem;
+  text-decoration: none;
+}
+
+#name-container a .name::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-in-out;
+}
+
+#name-container a:hover .name::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+
+.nav-link-header {
+  padding: 10px 15px;
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2.5rem); 
+  color: #fff;
+  line-height: 1.2;
+}
+
+
+/* Navigation Menu */
+#wb_CssMenu1 {
+  z-index: 2;
+  position: absolute;
+  top: 100%;
+  right: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: right;
+}
+
+/* Navigation menu items */
+.nav {
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+}
+
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 20px; /* optional indent */
+  transition: all 0.3s ease;
+}
+
+.submenu.show {
+  display: flex;
+}
+
+
+ .nav.active {
+  display: flex;
+}
+
+.nav-item {
+  /* margin: 0 10px; */
+  position: relative;
+}
+
+.nav-title {
+  /* margin-top: 20px; */
+  margin-bottom: 10px;
+  font-weight: bold;
+  /* optional: visually separate it */
+  border-bottom: 1px solid #ccc;
+  /* padding-top: 10px; */
+}
+
+.nav-title2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  /* optional: visually separate it */
+  border-bottom: 1px solid #ccc;
+  padding-top: 10px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+}
+
+.nav-link-title {
+  text-decoration: none;
+  color: #ccc;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  font-weight: bold;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 5px;
+  transform: scale(0);
+  z-index: -1;
+}
+
+.nav-item:hover::before {
+  transform: scale(1);
+}
+
+/* .nav-link:hover {
+  border-bottom: 2px solid #fff; 
+  padding-bottom: 2px; 
+} */
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Navigation Styling */
+.navigation {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  text-align: left;
+  opacity: 0; /* Start hidden */
+  transform: translateY(100px); /* Start off-screen */
+  transition: transform 0.7s ease-out, opacity 0.6s ease-out; /* Smooth animation */
+}
+
+.navigation-text {
+  margin: 0;
+  color: white;
+  text-align: left;
+  margin-bottom: 2%; /* Added percentage-based spacing between texts */
+}
+
+/* Class to apply when the navigation is visible */
+.navigation.visible {
+  opacity: 1;
+  transform: translateY(0); /* Move into view */
+}
+
+/* School Assignment (Bold, Clean Font) */
+.school-assignment {
+  font-weight: bold;
+  font-family: Arial, sans-serif; /* Clean, minimalistic font */
+  font-size: clamp(2rem, 2vw, 2.5rem); /* Responsive font size based on viewport width */
+}
+
+/* Vacation Home Button */
+.vacation-home-button {
+  font-weight: normal; /* Not bold */
+  font-size: clamp(1rem, 1vw, 1.5rem);  /* Font size adjusts based on viewport width */
+  padding: 2% 3%; /* Padding around the text */
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.7s ease, color 0.7s ease;
+  display: inline-block; /* Ensures the button only takes the width of the text */
+  text-align: center; /* Centers the text within the button */
+}
+
+.vacation-home-button:hover {
+  background: linear-gradient(to right, #fff, #ccc);
+  color: #000;
+  background: (to top, #fff); /* Left to right fade effect */
+}
+
+/* Zwolle, Overijsel Text */
+.zwolle-text {
+  padding-top: 3px;
+  font-size: clamp(1rem, 1vw, 1.5rem); /* Smaller responsive font size */
+  color: white;
+  font-style: italic; /* Italics */
+  font-weight: normal; /* Not bold */
+}
+
+/* Section Styling */
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+section.bg-image {
+  position: relative; /* Make sure the section is a positioned element */
+  background-size: cover;
+  background-position: center;
+}
+
+section.bg-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Default color */
+  z-index: 0; /* Ensure the overlay stays behind the text and buttons */
+}
+
+section.bg-image:hover::before {
+  background-color: rgba(0, 0, 0, 0.4); /* Change color on hover */
+}
+
+#section1.bg-image {
+  background-image: url('./images/finalrender-000_1\ -\ Photo.jpg');
+}
+
+#section2.bg-image {
+  background-image: url('./images/rendercampus_bewerkt.jpg');
+}
+
+#section3.bg-image {
+  background-image: url('./images/renderv1.jpg');
+}
+
+#section4.bg-image {
+  background-image: url('./images/renderbewerkt.jpg');
+}
+
+ 
+#section1.bg-image::before, 
+#section2.bg-image::before,
+#section3.bg-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  z-index: 0; /* Ensure the overlay stays behind the text and buttons */
+}
+
+.content {
+  position: relative;
+}
+
+
+
+/* Content Wrappers */
+.content-wrapper-home, .content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 80%;
+  width: 95%;
+  margin-top: 7%;
+  border-radius: 10px;
+  gap: 20%;
+}
+
+.content {
+  /*background: rgba(0, 0, 0, 0.8);*/
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  padding-top: 3%;
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+  position: absolute; /* Position the modal content relative to the screen */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset the modal to truly center it */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: #fff;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#caption {
+  margin: 15px 0;
+  text-align: center;
+  color: #ccc;
+  font-size: 20px;
+}
+
+.scroll-indicator {
+  font-size: 3rem; /* Adjust size */
+  color: #fff; /* Adjust to match your design */
+  text-align: center;
+  margin: 0;
+  position: absolute; /* Fix the position */
+  bottom: 20px; /* Distance from the bottom of the section */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the arrow */
+  animation: move-down 2s infinite; /* Apply the new animation */
+  pointer-events: none; /* Prevent interaction */
+  user-select: none; /* Prevent text selection */
+  opacity: 0;
+}
+
+/* New downward movement with visibility toggle */
+@keyframes move-down {
+  0% {
+    transform: translate(-50%, 0) rotate(90deg); /* Start at the original position */
+    opacity: 0; /* Initially invisible */
+  }
+  25% {
+    transform: translate(-50%, 0) rotate(90deg); /* Appear at the top */
+    opacity: 0.7; /* Fully visible */
+  }
+  75% {
+    transform: translate(-50%, 20px) rotate(90deg); /* Move down */
+    opacity: 0.7; /* Stay visible */
+  }
+  100% {
+    transform: translate(-50%, 20px) rotate(90deg); /* End at the bottom */
+    opacity: 0; /* Fade out */
+  }
+}
+/* Footer Styling */
+#footer {
+  background-color: rgba(0, 0, 0, 1); /* Dark background */
+  color: rgb(255, 255, 255); /* White text */
+  text-align: center; /* Horizontally centers the text */
+  width: 100%; /* Full-width footer */
+  height: 6vh; /* Fixed height */
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Vertically center the content */
+  justify-content: center; /* Horizontally center the content */
+}
+
+.footer-content {
+  text-align: center; /* Ensures content is centered within its container */
+}
+
+.footer-content p {
+  margin: 0; /* Remove default margins on the paragraph */
+  font-size: 0.9rem; /* Adjust the font size */
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100vh;
+  background-color: rgba(0, 0, 0);
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+.menu-overlay.active {
+  width: clamp(180px, 25vw, 320px);
+  /* width: 20vw; */
+  /* width: 160px; */
+}
+
+/* Style for the toggle button */
+.menu-toggle {
+  display: block;
+  /* font-size: clamp(1.4rem, 1.8vh, 1.9rem); */
+  font-size: clamp(1.8rem, 2.4vh, 2.5rem);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.menu-toggle::before {
+  content: "☰";
+}
+
+.menu-toggle.active::before {
+  content: "✖";
+  color: rgba(244, 244, 244);
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 1200px) {
+
+  #header {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center-align items */
+    padding: 0 20px;
+  }
+
+  .home-link {
+    text-align: center;
+    /* margin-bottom: 10px; */
+    padding-top: 10px;
+    align-self: flex-start;
+}
+
+.home-name {
+  font-size: 1.2rem;
+}
+
+  #name-container {
+    text-align: center; /* Ensure text is centered */
+    flex-grow: 0; /* Prevent stretching */
+  }
+
+  #name-container a .name {
+    font-size: 1.4rem; /* or whatever fixed size you want for phones */
+  }
+
+  /* Navigation Menu */
+  #wb_CssMenu1 {
+    position: absolute;
+    top: 100%;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+    background-color: rgba(0, 0, 0);
+    z-index: 1;
+    transition: width 0.3s ease;
+  }
+
+  .menu-overlay.active {
+    width: clamp(250px, 25vw, 320px);
+    /* width: 20vw; */
+    /* width: 160px; */
+  }
+
+  /* Style for the toggle button */
+  .menu-toggle {
+    display: block;
+    font-size: clamp(1.4rem, 1.8vh, 1.9rem);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+  }
+
+  .menu-toggle::before {
+    content: "☰";
+  }
+
+  .menu-toggle.active::before {
+    content: "✖";
+    color: rgba(244, 244, 244);
+  }
+
+  /* Navigation menu items */
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: right;
+  }
+
+  .nav-link {
+    /* font-size: 1.2vw; */
+    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
+    color: rgba(244, 244, 244);
+  }
+
+/* School Assignment (Bold, Clean Font) */
+.school-assignment {
+  font-size: clamp(1.3rem, 3vw, 2.5rem); /* Responsive font size based on viewport width */
+}
+
+/* Vacation Home Button */
+.vacation-home-button {
+  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Font size adjusts based on viewport width */
+}
+
+/* Zwolle, Overijsel Text */
+.zwolle-text {
+  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Smaller responsive font size */
+}
+
+#footer {
+  height: 4vh;
+}
+}
+
+@media (max-width: 750px) {
+  .home-link {
+    display: none;
+  }
+}

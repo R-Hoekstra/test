@@ -1,0 +1,426 @@
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* Disable scrolling entirely */
+}
+
+/* Custom text selection color for the entire page */
+::selection {
+  background: #fff;
+  color: #000000;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1;
+}
+
+/* === HEADER === */
+#header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(244, 244, 244, 0);
+    transition: background-color 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
+}
+
+.nav-link-header {
+    padding: 10px 15px;
+}
+
+#header.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#header.visible {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.home-link {
+    text-decoration: none;
+    margin-right: auto;
+    z-index: 100;
+    position: absolute;
+}
+
+.home-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.2s ease;
+}
+
+.home-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.home-name {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* === NAME CONTAINER === */
+.name {
+    margin: 0;
+    font-size: clamp(2rem, 2.5vw, 3rem); 
+    color: #fff;
+    line-height: 1.2;
+}
+
+#name-container {
+    position: static;
+    flex-grow: 1;
+    text-align: center;
+}
+
+#name-container a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+#name-container a .name {
+    position: relative;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+#name-container a .name::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-in-out;
+}
+
+#name-container a:hover .name::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Navigation Menu */
+#wb_CssMenu1 {
+    z-index: 2;
+    position: absolute;
+    top: 100%;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: right;
+}
+
+.nav {
+    list-style: none;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.nav.active {
+    display: flex;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav-title2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: clamp(0.8rem, 1.2vw, 1.2rem);
+    /* position: relative;  */
+}
+
+.nav-link-title {
+    text-decoration: none;
+    color: #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: clamp(1rem, 1.4vw, 1.4rem);
+    font-weight: bold;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 5px;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.nav-item:hover::before {
+    transform: scale(1);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* === IMAGE ZOOM === */
+.clickable-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease-in-out;
+}
+
+.clickable-image:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* === NEW UNIFIED CONTACT CARD === */
+.content-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-card.unified {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch; /* Ensures both sides have equal height */
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+    height: 70vh;
+    background-color: rgba(20, 29, 39, 0.85);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    gap: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-card.unified:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+.contact-card.unified .contact-info {
+    flex: 1;
+    display: flex;              /* Center vertically & horizontally */
+    flex-direction: column;
+    justify-content: center;    /* Vertical center */
+    text-align: center;
+}
+
+.contact-card.unified .contact-info a {
+    margin-top: 10px; /* Same spacing as heading to text */
+    display: inline-block; /* So margin applies nicely */
+}
+
+.contact-card.unified h2 {
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+.contact-card.unified p,
+.contact-card.unified a {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+.contact-card.unified a {
+    text-decoration: none;
+    color: #9cd3ff;
+    transition: color 0.2s ease;
+}
+
+.contact-card.unified a:hover {
+    color: #ffffff;
+}
+
+.contact-card.unified .contact-image {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.contact-card.unified .fixed-image {
+    width: 100%;
+    height: 100%;               /* Match card height */
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* === FOOTER === */
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6vh;
+    background-color: rgba(0, 0, 0, 1);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* === HAMBURGER MENU === */
+.menu-toggle {
+    display: block;
+    font-size: clamp(1.8rem, 2.4vh, 2.5rem);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+
+.menu-toggle::before {
+    content: "☰";
+}
+
+.menu-toggle.active::before {
+    content: "✖";
+    color: rgba(244, 244, 244);
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+    background-color: rgba(0, 0, 0);
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.menu-overlay.active {
+    width: clamp(250px, 25vw, 320px);
+}
+
+/* === RESPONSIVENESS === */
+@media (max-width: 900px) {
+    .contact-card.unified {
+        flex-direction: column;
+        height: auto; /* Let it grow naturally based on content */
+    }
+
+    .contact-card.unified .contact-info {
+        order: 1; /* Text first */
+        margin-bottom: 1rem; /* Space between text and image */
+    }
+
+    .contact-card.unified .contact-image {
+        order: 2; /* Image second */
+        flex: none;
+        width: 38%;
+        max-height: 40vh; /* Image takes up less than half of viewport height */
+        margin: 0 auto; /* Centers the image block horizontally */
+        overflow: hidden;
+        display: flex; /* Centers the actual img inside */
+        justify-content: center;
+    }
+
+    .contact-card.unified .fixed-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Crop if needed, keep aspect ratio */
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 750px) {
+    .home-link {
+        display: none;
+    }
+    .contact-card.unified .contact-image {
+        width: 45%;
+    }
+}
+
+@media (max-width: 500px) {
+    .contact-card.unified .contact-image {
+        width: 60%;
+    }
+}

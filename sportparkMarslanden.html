@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Style3.css" rel="stylesheet">
+    <link href="StyleInfo.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body style="background-color: #09141e;"> <!--class="no-header-bg"  -- add this if you want to hide the bg of the header--> 
+    <!-- Header -->
+    <div id="header">
+        <a href="HomePage.html" class="home-link">
+            <h1 class="home-name">THIJS SMIT</h1>
+        </a>
+        <div id="name-container">
+            <a class="nav-link-header" href="#top">
+                <h1 class="name">SPORTPARK MARSKLANDEN</h1>
+            </a>
+        </div>
+        <!-- The Hamburger Button (Only one) -->
+        <button class="menu-toggle"></button>  <!-- Button will hold the hamburger icon -->
+        <div class="menu-overlay"></div> <!-- Background Overlay -->       
+        <div id="wb_CssMenu1">
+            <ul id="CssMenu1" class="nav">
+               <!-- <li role="menuitem" class="nav-item"><a class="nav-link" href="#sectionVaction1">Contact</a></li> -->
+               <li role="menuitem" class="nav-item nav-title"><a class="nav-link-title">HOME PAGE</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="HomePage.html">Thijs Smit</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">PROJECTS</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="secondTry.html">Wood Community</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="CultureRoof.html">Culture Roof</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="sportparkMarslanden.html">Sportpark</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="vacationhome.html">Vacation Home</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">CONTACT</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="contactPage.html">Contact Me</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Full-Screen Sections with Background Images -->
+    <main>
+        <div class="vertical-line"></div>
+        <div class="content-wrapper-info">
+            <div class="content2 visible">
+          
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/renderv1.jpg" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <p class="section-description">
+                    A multifunctional sports building that brings together various users of the sports park and the surrounding area.
+                    The ground floor is equipped with workspaces, fitness areas, and a community facility.
+                    The stands of the surrounding sports fields are connected to the building.
+                  </p>
+                </div>
+              </div>
+          
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/doorsnede 2 utiliteit.png" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <div class="image-details">
+                    <p><span class="label">Location:</span> <span class="value">Zwolle, Overijsel</span></p>
+                    <p><span class="label">Function:</span> <span class="value">Multifunctioneel</span></p>
+                    <p><span class="label">Area:</span> <span class="value">4,257.4m²</span></p>
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+          
+          <div class="content-wrapper-info">
+            <div class="content2 visible">
+          
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/Detail aansluiting brug (1).jpg" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <p class="section-description">
+                    Connection between floor and terrace
+                  </p>
+                </div>
+              </div>
+          
+              <div class="content-block">
+                <div class="image-container">
+                  <img src="images/Detail aansluiting brug.jpg" class="clickable-image">
+                </div>
+                <div class="content2-left">
+                  <p class="section-description">
+                    Connection between wall and curtain wall
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    </main>
+    <!-- Modal for Image Popup -->
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div id="caption"></div>
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="scriptAttempt4.js"></script>
+</body>
+</html>

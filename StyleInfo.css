@@ -1,0 +1,237 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* position: relative;
+  background-size: cover; */
+}
+
+.content-wrapper-vacationHome {
+  background-color: #0c1a25;
+}
+
+#sectionVaction1,
+#sectionVaction2,
+#sectionVaction3,
+#sectionVaction4 {
+  background-color: #09141e; /* Example background color */
+  position: relative;
+  background-size: cover;
+}
+
+/* Content Wrappers */
+.content-wrapper-info {
+  background-color: #09141e; /* Example background color */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the top */
+  position: relative;
+  width: 100%;
+  /* margin-top: 8%; */
+  margin-bottom: 2%;
+  /* border-radius: 10px; */
+  gap: 20%;
+}
+
+/* Top margin for the first content-wrapper-info */
+.content-wrapper-info:first-of-type {
+  margin-top: 7%;  /* Larger top margin for the first section */
+}
+
+/* Reduced top margin for all other content-wrapper-info */
+.content-wrapper-info:not(:first-of-type) {
+  margin-top: 75px;  /* Smaller top margin for the following sections */
+}
+
+.content2 {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 clamp(1rem, 5vw, 23vh);
+  /* margin: 0 23vh; */
+}
+
+.content-block {
+  width: 45%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Visible state when in view */
+.content2.visible {
+  opacity: 1;
+  transform: translateY(0);  /* Move into view */
+  /* margin-top: 1vh;  */
+}
+
+.section-description {
+  color: #fff;
+  width: 100%;
+}
+
+/* Vertical center line */
+.vertical-line {
+  position: fixed;
+  top: 8vh;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: white;
+  z-index: 10;
+  height: calc(100vh - 10vh); /* Adjust height to avoid header and footer */
+}
+
+/* Vertical Divider */
+/* .content2::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  bottom: 5%;
+  left: 50%; /* Position at the center */
+  /*width: 2px; /* Line thickness */
+  /*background-color: #fff; /* Line color */
+ /* opacity: 0.5; /* Slight transparency for a subtle look */
+/*} */
+
+.content2-left {
+  font-size: 1.3rem;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden; /* Ensures the zoomed area is not visible outside the container */
+  width: 100%; /* Set your container size */
+  height: 50vh; /* Set your container size */
+}
+
+.image-container:hover .clickable-image {
+  transform: scale(1.1); /* Zoom effect on hover (slightly zoomed in) */
+}
+
+.clickable-image {
+  width: 100%;
+  height: 500px;
+  object-fit: cover; /* Keeps the aspect ratio of the image */
+  transition: transform 0.3s ease; /* Smooth zoom effect */
+  cursor: pointer;
+}
+
+.image-details {
+  margin-top: 1rem;
+  color: #f9f9f9;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+  /* padding-left: 5px; */
+}
+
+/* Grid layout for label-value pairs */
+.image-details p {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* First column for labels, second for values */
+  gap: 10px; /* Space between label and value */
+  margin: 4px 0;
+}
+
+.image-details .label {
+  font-weight: bold;
+  text-align: left; /* Keeps the label left-aligned */
+}
+
+.image-details .value {
+  text-align: left; /* Aligns values neatly under each other */
+}
+
+.image-caption {
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: #f9f9f9;
+  text-align: left;
+}
+
+/* When screen width is less than 768px (typical mobile breakpoint) */
+@media (max-width: 1200px) {
+  main {
+    margin: 10vh 0 0 0;
+  }
+
+  /* Stack the text and image vertically */
+  /* Apply top padding only to the first content2 */
+  .content-wrapper-info:first-of-type .content2 {
+    padding: 4rem 1rem 1rem 1rem;  /* Top padding for spacing under the header */
+  }
+
+  /* Remove top padding for subsequent content2 */
+  .content-wrapper-info:not(:first-of-type) .content2 {
+    padding: 0rem 0rem 1rem 0rem;  /* No extra top padding */
+  }
+
+  .content2 {
+    flex-direction: column;
+  }
+
+  .content-block {
+    width: 100%;
+  }
+
+  /* Hide the vertical divider */
+  .content2::before {
+    display: none;  /* Remove the line */
+  }
+
+  /* Adjust the content width */
+  .content2-left, .image-container {
+    width: 100%;  /* Make both the text and image take full width */
+  }
+
+  /* Adjust the padding to ensure spacing looks good on mobile */
+  .content2-left {
+    padding-right: 0;  /* Remove extra padding */
+    font-size: 1rem;
+  }
+
+  /* Adjust image container to fit within the screen */
+  .image-container {
+    width: 100%;
+  }
+
+  .image-details {
+    font-size: 0.8rem;
+  }
+
+  /* Set content-wrapper-info to allow scrolling */
+  .content-wrapper-info {
+    width: 100%; /* Ensure full width */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0; /* No extra padding on the bottom */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    /* overflow-y: auto; Allow vertical scrolling */
+    /* height: auto; Allow the content to grow naturally */
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  /* Allow full page vertical scrolling
+  html, body {
+    /* height: auto; Full height of the content */
+    /* overflow-y: auto; Allow scrolling if content overflows 
+  } */
+
+  /* Prevent any unwanted horizontal scrolling */
+  /* body, html {
+    /* overflow-x: hidden; 
+  } */
+}
