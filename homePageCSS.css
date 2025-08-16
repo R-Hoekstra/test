@@ -121,3 +121,15 @@ a, img, button {
         font-size: 0.75rem; /* Make footer text fit */
     }
 }
+
+@media (max-width: 360px) {
+    .intro-title {
+        font-size: 1.6rem; /* Scales down for smaller screens */
+        text-align: center; /* Keep centered */
+        margin: 0 1rem 15px 1rem; /* Add some side spacing */
+    }
+
+    .intro-container {
+        text-align: center;
+    }
+}
