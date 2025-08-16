@@ -25,6 +25,13 @@ main {
     flex: 1;
 }
 
+/* Remove or customize tap highlight on mobile */
+a, img, button {
+    -webkit-tap-highlight-color: transparent; /* No blue highlight */
+    outline: none; /* Remove default outline */
+}
+
+
 /* === HEADER === */
 #header {
     display: flex;
@@ -115,24 +122,6 @@ main {
     font-family: 'Arial', sans-serif;
     font-size: 2rem;
     text-decoration: none;
-}
-
-#name-container a .name::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 100%;
-    height: 2px;
-    background-color: currentColor;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-in-out;
-}
-
-#name-container a:hover .name::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
 }
 
 /* Navigation Menu */
@@ -381,6 +370,36 @@ main {
 
 /* === RESPONSIVENESS === */
 @media (max-width: 900px) {
+    #header {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center-align items */
+    padding: 0 20px;
+    }
+
+    #name-container a .name {
+    font-size: 1.4rem; /* or whatever fixed size you want for phones */
+    }
+    
+    .menu-toggle {
+    display: block;
+    /* font-size: clamp(1.4rem, 1.8vh, 1.9rem); */
+    font-size: clamp(1.4rem, 2.4vh, 2.5rem);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    }
+
+    .nav-link {
+    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
+    color: rgba(244, 244, 244);
+    }
+
     .contact-card.unified {
         flex-direction: column;
         height: auto; /* Let it grow naturally based on content */
@@ -407,6 +426,11 @@ main {
         height: 100%;
         object-fit: cover; /* Crop if needed, keep aspect ratio */
         border-radius: 12px;
+    }
+
+    #name-container a .name::after {
+        display: none; /* remove underline effect */
+        content: none; /* ensure no pseudo-element is rendered */
     }
 }
 

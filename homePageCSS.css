@@ -5,6 +5,24 @@
     box-sizing: border-box;
 }
 
+/* Base: make the body span full height */
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content should expand to fill available space */
+main {
+    flex: 1;
+}
+
+/* Remove or customize tap highlight on mobile */
+a, img, button {
+    -webkit-tap-highlight-color: transparent; /* No blue highlight */
+    outline: none; /* Remove default outline */
+}
+
 /* Centering the Intro Section */
 .intro-section {
     height: 94vh; /* Adjusted to leave space for the footer */
@@ -67,4 +85,39 @@
     margin: 0;
     font-size: 0.9rem;
     font-family: Arial, sans-serif;
+}
+
+@media (max-width: 900px) {
+  .intro-title::after {
+        display: none; /* remove underline effect on mobile */
+        content: none; /* ensure the pseudo-element is gone */
+    }
+}
+
+/* Phones only */
+@media (max-width: 600px) {
+    .intro-section {
+        padding: 40px 10px;
+    }
+
+    .intro-title {
+        font-size: 1.8rem; /* Scales down for smaller screens */
+        text-align: center; /* Keep centered */
+        margin: 0 1rem 15px 1rem; /* Add some side spacing */
+    }
+
+    .intro-image {
+        width: 100%;       /* Shrink nicely on small screens */
+        max-width: 320px;  /* Prevent it from being too big */
+        height: auto;
+    }
+
+    #footer {
+        height: auto; /* Don’t force a fixed height */
+        padding: 10px;
+    }
+
+    #footer p {
+        font-size: 0.75rem; /* Make footer text fit */
+    }
 }

@@ -21,6 +21,12 @@ body {
   line-height: 1.6;
 }
 
+/* Remove or customize tap highlight on mobile */
+a, img, button {
+    -webkit-tap-highlight-color: transparent; /* No blue highlight */
+    outline: none; /* Remove default outline */
+}
+
 /* Header Styling */
 #header {
   display: flex;
@@ -109,7 +115,6 @@ body {
   position: relative;
   color: #ffffff;
   font-family: 'Arial', sans-serif;
-  font-size: 2rem;
   text-decoration: none;
 }
 
@@ -133,7 +138,7 @@ body {
 
 
 .nav-link-header {
-  padding: 10px 15px;
+  margin: 10px 40px;
 }
 
 .name {
@@ -681,6 +686,13 @@ section.bg-image:hover::before {
 #footer {
   height: 4vh;
 }
+}
+
+@media (max-width: 900px) {
+  #name-container a .name::after {
+        display: none; /* remove underline effect */
+        content: none; /* ensure no pseudo-element is rendered */
+    }
 }
 
 @media (max-width: 750px) {
