@@ -1,0 +1,458 @@
+/* === VARIABLES === */
+:root {
+  --footer-h: 4vh; /* keep in sync with #footer height */
+}
+
+html {
+  /* helps anchor-based or programmatic scroll stop cleanly */
+  scroll-behavior: smooth;
+}
+
+/* Make sections behave like full-screen slides */
+main {
+  scroll-snap-type: y mandatory;
+}
+
+/* measured variables fall back to your existing var(--footer-h) if JS hasn't run yet */
+:root {
+  --header-h: 0px;
+  --footer-h-px: var(--footer-h, 4vh);
+}
+
+/* === HERO BACKGROUND SECTION === */
+/* Make the hero’s background fixed to the viewport */
+.hero-background {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;   /* key line for the effect */
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+}
+
+/*DO I WANT THIS??*/
+/* A soft fade at the bottom so the next section “wins” smoothly */
+.hero-background::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 20vh; 
+  z-index: 2;   /* above .darker but below content cards */
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(9,20,30,0) 0%, rgba(9,20,30,1) 100%);
+}
+
+/* Dark overlay layer */
+.hero-background .darker {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* --- ORIGINAL HERO CONTENT (kept for compatibility) --- */
+.hero-content {
+  position: absolute;   /* Absolute relative to hero-background */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 100%); /* centered, as before */
+  z-index: 3;
+  text-align: center;
+  color: #fff;
+}
+.hero-content h1 { font-size: 3rem; margin-bottom: 1rem; }
+.hero-content p  { font-size: 1.5rem; }
+
+/* ===== HERO CARDS ===== */
+.hero-card {
+  position: absolute;
+  bottom: 5%;
+  border-radius: 14px;
+  padding: clamp(14px, 2vw, 24px);
+  z-index: 3; /* above overlay */
+}
+
+.hero-card-left {
+  left: 5%;
+  max-width: min(40vw, 420px);
+}
+.hero-card-left h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  line-height: 1.2;
+  color: #c6cfda;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+}
+
+/* Right card wraps hero text */
+.hero-card-right {
+  right: 5%;
+  max-width: min(55vw, 560px);
+}
+.hero-card-right .hero-content {
+  position: static;
+  transform: none;
+  text-align: left;
+  color: #c6cfda;
+  z-index: 3;
+}
+.hero-card-right .hero-content h1 {
+  margin: 0 0 0.6rem 0;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+}
+.hero-card-right .hero-content p {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  color: #c6cfda;
+}
+
+
+
+/* === Portfolio Wrapper === */
+.portfolio-wrapper {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.hidden-until-load {
+  opacity: 0;              /* hide visually */
+  pointer-events: none;    /* prevent clicks */
+}
+
+.scroll-indicator {
+  font-size: 3rem; /* Adjust size */
+  color: #fff; /* Adjust to match your design */
+  text-align: center;
+  margin: 0;
+  position: absolute; /* Fix the position */
+  bottom: 20px; /* Distance from the bottom of the section */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the arrow */
+  animation: move-down 2s infinite; /* Apply the new animation */
+  pointer-events: none; /* Prevent interaction */
+  user-select: none; /* Prevent text selection */
+  opacity: 0;
+}
+
+/* New downward movement with visibility toggle */
+@keyframes move-down {
+  0% {
+    transform: translate(-50%, 0) rotate(90deg); /* Start at the original position */
+    opacity: 0; /* Initially invisible */
+  }
+  25% {
+    transform: translate(-50%, 0) rotate(90deg); /* Appear at the top */
+    opacity: 0.7; /* Fully visible */
+  }
+  75% {
+    transform: translate(-50%, 20px) rotate(90deg); /* Move down */
+    opacity: 0.7; /* Stay visible */
+  }
+  100% {
+    transform: translate(-50%, 20px) rotate(90deg); /* End at the bottom */
+    opacity: 0; /* Fade out */
+  }
+}
+
+/* === Portfolio Slider (centered vertically) === */
+.portfolio-slider {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  transition: transform 0.5s ease;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  height: 96vh;
+  min-height: 96vh;
+}
+
+/* === Portfolio Card Layout === */
+.portfolio-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex: 0 0 100%;
+  max-width: clamp(800px, 90vw, 1400px);
+  margin: 0 auto;
+  padding-left: clamp(2rem, 5vw, 6rem);
+  padding-right: clamp(2rem, 5vw, 6rem);
+  box-sizing: border-box;
+  gap: 2rem;
+}
+
+/* Info + gallery split evenly */
+.portfolio-info,
+.portfolio-gallery {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Text column */
+.portfolio-info {
+  align-items: flex-end;
+  text-align: right;
+  max-width: 50%;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+}
+
+/* Smaller image below text in info column */
+.info-image {
+  width: 100%;
+  height: 45%;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 10px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.info-image:hover {
+  transform: scale(1.02);
+}
+
+/* Image column */
+.portfolio-gallery {
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 55%;
+}
+
+.portfolio-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.gallery-image {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.02);
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: white;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  opacity: 0.8;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s ease;
+  pointer-events: auto;
+}
+
+.arrow:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.arrow-left {
+  left: clamp(10px, 3vw, 60px);
+}
+
+.arrow-right {
+  right: clamp(10px, 3vw, 60px);
+}
+
+/* === LIGHTBOX === */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  justify-content: center;     /* horizontal center */
+  align-items: center;         /* vertical center */
+  overflow: hidden;
+}
+.lightbox-content {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  object-fit: contain;
+}
+
+/* Visually-hidden helper for a11y text */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Make the close/prev/next *buttons* look like your existing icons */
+.lightbox .close,
+.lightbox .prev,
+.lightbox .next {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Show focus only for keyboard users and make it subtle */
+.lightbox .close:focus,
+.lightbox .prev:focus,
+.lightbox .next:focus {
+  outline: none; /* remove default UA outline */
+}
+
+/* Accessible, subtle ring when keyboard-navigating */
+.lightbox .close:focus-visible,
+.lightbox .prev:focus-visible,
+.lightbox .next:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.7);
+  outline-offset: 4px;
+  border-radius: 8px; /* matches your rounded look */
+}
+
+/* The dialog itself shouldn’t flash an outline when focused on open */
+#lightbox:focus {
+  outline: none;
+}
+
+.close {
+  position: absolute;
+  top: 20px; right: 40px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  user-select: none;
+  transition: 0.3s;
+  padding: 16px;
+}
+.prev { left: 20px; }
+.next { right: 20px; }
+.prev:hover, .next:hover, .close:hover { color: #9cd3ff; }
+
+
+
+
+
+/* === RESPONSIVENESS === */
+@media (max-width: 1100px) {
+  /* .hero-card-right { max-width: min(62vw, 620px); } */
+}
+
+/* Turn off background-attachment: fixed on mobile to avoid scroll bugs */
+@media (max-width: 900px) {
+  .portfolio-card { 
+    flex-direction: column; 
+    align-items: center;
+    margin: 0 auto;
+    padding: 1rem;
+    max-width: min(90vw, 680px);
+    max-height: calc(100vh - (var(--header-h, 0px) + var(--footer-h-px) + 24px));
+  }
+  .portfolio-gallery { order: 2; }
+  .portfolio-info { order: 1; margin-bottom: 1rem; }
+
+  #header {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+  }
+  #name-container a .name { font-size: 1.4rem; }
+  .menu-toggle { font-size: clamp(1.4rem, 2.4vh, 2.5rem); }
+  .nav-link { font-size: clamp(1.2rem, 1.2vw, 1.2rem); color: rgba(244, 244, 244); }
+  #name-container a .name::after { display: none; content: none; }
+
+  .hero-background { background-attachment: scroll; }
+
+  /* Cards stack + center on small screens */
+  .hero-card {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    bottom: auto;
+    width: min(88vw, 680px);
+  }
+  .hero-card-left { top: 56%; margin-bottom: 10px; }
+  .hero-card-right { top: 70%; }
+}
+
+@media (max-width: 750px) {
+  .portfolio-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .portfolio-gallery img {
+    max-height: 40vh;
+  }
+  .home-link { display: none; }
+  .arrow { display: none; }
+
+  .header-logo-group {
+    top: 8px;
+    left: 16px;
+    gap: clamp(6px, 2.5vw, 12px);
+  }
+
+  .header-logo-img {
+    width: clamp(24px, 8vw, 38px);
+  }
+
+  .header-logo-group .home-name {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-card-left { top: 58%; }
+  .hero-card-right { top: 74%; }
+  .hero-card { padding: 14px; }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  body {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}

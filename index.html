@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Ensure full-bleed on modern mobile screens (notch support) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- Android / modern browsers -->
+  <meta name="theme-color" content="#123456" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+  <!-- iOS PWA status bar -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link href="index.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/icon.png" />
+  <title>Thijs Smit | Architecture</title>
+</head>
+<body>
+  <!-- Background Slideshow -->
+  <div id="background-slideshow" aria-hidden="true"></div>
+
+  <main>
+    <section class="intro-section">
+      <div class="intro-container">
+        <a
+          href="home.html"
+          class="intro-link"
+          aria-label="Enter the Thijs Smit Architecture website"
+        >
+          <span class="intro-title">Thijs Smit | Architecture</span>
+          <img class="intro-logo" src="images/icon.png" alt="Thijs Smit logo" />
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p style="text-align:center; color:#ffffff; background:#09141e; padding:1rem;">
+      Please enable JavaScript to view this site properly.
+    </p>
+  </noscript>
+
+  <script src="main.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

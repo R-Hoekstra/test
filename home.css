@@ -1,0 +1,446 @@
+/* Remove or customize tap highlight on mobile */
+a, img, button {
+    -webkit-tap-highlight-color: transparent; /* No blue highlight */
+    outline: none; /* Remove default outline */
+}
+
+.header-logo {
+  position: absolute;          /* fixes it in top-left of header */
+  top: 10px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  z-index: 1001;               /* above background overlay */
+}
+
+/* .header-logo img {
+  width: clamp(25px, 4.5vw, 45px);         
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+} */
+
+.home-link {
+  text-decoration: none;
+  margin-right: auto; /* pushes everything else to the right */
+  z-index: 100;
+  position: absolute;
+}
+
+.home-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
+}
+
+.home-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.nav-link-header {
+  margin: 10px 40px;
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2.5rem); 
+  color: #fff;
+  line-height: 1.2;
+}
+
+/* Navigation Styling */
+.navigation {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  text-align: left;
+  opacity: 0; /* Start hidden */
+  transform: translateY(100px); /* Start off-screen */
+  transition: transform 0.7s ease-out, opacity 0.6s ease-out; /* Smooth animation */
+}
+
+.navigation-text {
+  margin: 0;
+  color: white;
+  text-align: left;
+  margin-bottom: 2%; /* Added percentage-based spacing between texts */
+}
+
+/* Class to apply when the navigation is visible */
+.navigation.visible {
+  opacity: 1;
+  transform: translateY(0); /* Move into view */
+}
+
+/* School Assignment (Bold, Clean Font) */
+.school-assignment {
+  font-weight: bold;
+  font-family: Arial, sans-serif; /* Clean, minimalistic font */
+  font-size: clamp(2rem, 2vw, 2.5rem); /* Responsive font size based on viewport width */
+}
+
+/* Vacation Home Button — Subtle, Elegant White/Black */
+.vacation-home-button {
+  font-weight: 300;
+  font-size: clamp(1rem, 1vw, 1.3rem);
+  padding: 0.8em 1.6em;
+  color: #e0e0e0; /* soft white */
+  background-color: rgba(255, 255, 255, 0.05); /* faint tint */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(4px);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    transform 0.25s ease;
+}
+
+.vacation-home-button:hover {
+  background-color: rgba(255, 255, 255, 0.12); /* gentle light-on-dark glow */
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.vacation-home-button:active {
+  transform: translateY(0);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.vacation-home-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.25);
+  outline-offset: 3px;
+}
+
+/* Zwolle, Overijsel Text */
+.zwolle-text {
+  padding-top: 3px;
+  font-size: clamp(1rem, 1vw, 1.5rem); /* Smaller responsive font size */
+  color: white;
+  font-style: italic; /* Italics */
+  font-weight: normal; /* Not bold */
+}
+
+/* Section Styling */
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Ensure bg-image sections can host the overlay */
+section.bg-image {
+  position: relative; /* if you already have this, keep your value */
+  overflow: hidden;   /* keeps the overlay perfectly clipped */
+}
+
+/* Overlay now uses a CSS variable for per-section darkness */
+section.bg-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, var(--overlay-alpha, 0.7));
+  z-index: 0;
+  transition: background-color 0.25s ease;
+}
+
+/* Keep your hover effect but make it relative to the computed base */
+section.bg-image:hover::before {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    max(0.2, calc(var(--overlay-alpha, 0.7) - 0.2))
+  );
+}
+
+/* Optional: if your text is absolutely positioned inside the section,
+   make sure it sits above the overlay (z-index > 0) */
+section.bg-image > * {
+  z-index: 1;
+}
+
+#section1.bg-image {
+  background-image: url('./images/finalrender-000_1\ -\ Photo.jpg');
+}
+
+#section2.bg-image {
+  background-image: url('./images/rendercampus_bewerkt.jpg');
+}
+
+#section3.bg-image {
+  background-image: url('./images/renderv1.jpg');
+}
+
+#section4.bg-image {
+  background-image: url('./images/renderbewerkt.jpg');
+}
+
+ 
+#section1.bg-image::before, 
+#section2.bg-image::before,
+#section3.bg-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  z-index: 0; /* Ensure the overlay stays behind the text and buttons */
+}
+
+.content {
+  position: relative;
+}
+
+/* Content Wrappers */
+.content-wrapper-home, .content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 80%;
+  width: 95%;
+  margin-top: 7%;
+  border-radius: 10px;
+  gap: 20%;
+}
+
+.content {
+  /*background: rgba(0, 0, 0, 0.8);*/
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  padding-top: 3%;
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+  position: absolute; /* Position the modal content relative to the screen */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset the modal to truly center it */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: #fff;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#caption {
+  margin: 15px 0;
+  text-align: center;
+  color: #ccc;
+  font-size: 20px;
+}
+
+.scroll-indicator {
+  font-size: 3rem; /* Adjust size */
+  color: #fff; /* Adjust to match your design */
+  text-align: center;
+  margin: 0;
+  position: absolute; /* Fix the position */
+  bottom: 20px; /* Distance from the bottom of the section */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center the arrow */
+  animation: move-down 2s infinite; /* Apply the new animation */
+  pointer-events: none; /* Prevent interaction */
+  user-select: none; /* Prevent text selection */
+  opacity: 0;
+}
+
+/* New downward movement with visibility toggle */
+@keyframes move-down {
+  0% {
+    transform: translate(-50%, 0) rotate(90deg); /* Start at the original position */
+    opacity: 0; /* Initially invisible */
+  }
+  25% {
+    transform: translate(-50%, 0) rotate(90deg); /* Appear at the top */
+    opacity: 0.7; /* Fully visible */
+  }
+  75% {
+    transform: translate(-50%, 20px) rotate(90deg); /* Move down */
+    opacity: 0.7; /* Stay visible */
+  }
+  100% {
+    transform: translate(-50%, 20px) rotate(90deg); /* End at the bottom */
+    opacity: 0; /* Fade out */
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1200px) {
+
+  #header {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center-align items */
+    padding: 0 20px;
+  }
+
+  .home-link {
+    text-align: center;
+    /* margin-bottom: 10px; */
+    padding-top: 10px;
+    align-self: flex-start;
+  }
+
+  .home-name {
+    font-size: 1.2rem;
+  }
+
+  #name-container {
+    text-align: center; /* Ensure text is centered */
+    flex-grow: 0; /* Prevent stretching */
+  }
+
+  #name-container a .name {
+    font-size: 1.4rem; /* or whatever fixed size you want for phones */
+  }
+
+  /* Style for the toggle button */
+  .menu-toggle {
+    display: block;
+    font-size: clamp(1.4rem, 1.8vh, 1.9rem);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1200;
+  }
+
+  .menu-toggle::before {
+    content: "☰";
+  }
+
+  .menu-toggle.active::before {
+    content: "✖";
+    color: rgba(244, 244, 244);
+  }
+
+  /* Navigation menu items */
+  .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: right;
+  }
+
+  .nav-link {
+    /* font-size: 1.2vw; */
+    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
+    color: rgba(244, 244, 244);
+  }
+
+/* School Assignment (Bold, Clean Font) */
+.school-assignment {
+  font-size: clamp(1.3rem, 3vw, 2.5rem); /* Responsive font size based on viewport width */
+}
+
+/* Vacation Home Button */
+.vacation-home-button {
+  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Font size adjusts based on viewport width */
+}
+
+/* Zwolle, Overijsel Text */
+.zwolle-text {
+  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Smaller responsive font size */
+}
+
+#footer {
+  height: 4vh;
+}
+}
+
+@media (max-width: 900px) {
+  #name-container a .name::after {
+        display: none; /* remove underline effect */
+        content: none; /* ensure no pseudo-element is rendered */
+    }
+}
+
+@media (max-width: 750px) {
+  .home-link {
+    display: none;
+  }
+}
+
+/* Optional: nicer edge on very small screens */
+@media (max-width: 420px) {
+  .menu-overlay {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+}

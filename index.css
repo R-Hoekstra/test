@@ -1,0 +1,229 @@
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Make the body span full height and allow vertical centering */
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #09141e; /* Fallback bg behind images */
+}
+
+/* Fade-in on load for a polished entrance */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  overflow: hidden; /* Avoid scrollbars during slide transitions */
+}
+body.loaded {
+  opacity: 1;
+}
+
+/* Custom text selection color for the entire page */
+::selection {
+  background: #fff; /* Replace with your preferred color */
+  color: #000000;      /* Replace with your preferred text color */
+}
+
+::-moz-selection {
+  background: #fff;
+  color: #000000;
+}
+
+/* Main content should expand to fill available space */
+main {
+  flex: 1;
+}
+
+/* Remove or customize tap highlight on mobile */
+a, img, button {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+/* ===== Background Slideshow ===== */
+#background-slideshow {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Behind content */
+  overflow: hidden;
+}
+
+/* Optional subtle overlay to improve text contrast on busy images */
+#background-slideshow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.4); /* dark layer */
+  background-blend-mode: multiply;       /* blends dark color with image */
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+  will-change: opacity, transform; /* Hint GPU for smoother animation */
+}
+
+.bg-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.bg-slide.exit {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* ===== Intro Section ===== */
+.intro-section {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 1rem;
+  background-color: transparent; /* Images handle background */
+}
+
+.intro-container {
+  z-index: 2; /* Above background */
+  text-align: center;
+}
+
+.intro-title {
+  position: relative;              /* allows underline to attach properly */
+  display: inline-block;           /* underline width = text width */
+  font-family: 'Arial', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.6rem);  /* slightly bigger */
+  color: #ffffff;
+  text-align: center;
+}
+
+/* Animated underline */
+.intro-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;                   /* ⬅ pushes line below text, not under icon */
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.35s ease;
+}
+
+.intro-link:hover .intro-title::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Optional image if you add one later */
+.intro-image {
+  width: 31rem;
+  height: auto;
+  display: block;
+  margin: 20px auto 10px auto;
+  border-radius: 10px;
+}
+
+.intro-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px; /* spacing between text and logo */
+  position: relative;
+}
+
+.intro-logo {
+  width: 18vh;   /* tweak as you like */
+  height: auto;
+  display: block;
+  pointer-events: none; /* optional: avoids accidental drag highlight */
+}
+
+/* ===== Footer ===== */
+#footer {
+  background-color: #040a0f;
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0; /* More flexible than fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== Accessibility: Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .bg-slide {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .intro-title::after {
+    display: none;
+    content: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro-section {
+    padding: 40px 10px;
+  }
+
+  .intro-title {
+    margin: 0 1rem 15px 1rem;
+  }
+
+  .intro-image {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+  }
+
+  #footer p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .intro-title {
+    margin: 0 1rem 15px 1rem;
+  }
+  .intro-container {
+    text-align: center;
+  }
+}

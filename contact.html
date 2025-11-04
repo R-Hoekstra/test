@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Android / modern browsers -->
+    <meta name="theme-color" content="#123456" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+    <!-- iOS PWA status bar -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="main.css" rel="stylesheet">
+    <link href="contact.css" rel="stylesheet">
+    <title>Thijs Smit | Architecture</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body class="contact-page" style="background-color:#09141e;"> 
+    <!-- Header -->
+    <div id="header">
+        <a href="home.html" class="header-logo-group">
+            <img src="images/icon.png" alt="Site Logo" class="header-logo-img">
+            <h1 class="home-name">THIJS SMIT</h1>
+        </a>
+
+        <div id="name-container">
+            <a class="nav-link-header">
+                <h1 class="name">CONTACT</h1>
+            </a>
+        </div>
+        <!-- The Hamburger Button (Only one) -->
+        <button class="menu-toggle"></button>  <!-- Button will hold the hamburger icon -->
+        <div class="menu-overlay"></div> <!-- Background Overlay -->       
+        <div id="wb_CssMenu1">
+            <ul id="CssMenu1" class="nav">
+               <!-- <li role="menuitem" class="nav-item"><a class="nav-link" href="#sectionVaction1">Contact</a></li> -->
+               <li role="menuitem" class="nav-item nav-title"><a class="nav-link-title">HOME PAGE</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="home.html">Thijs Smit</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">PROJECTS</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Wood_Community.html">Wood Community</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Culture_Roof.html">Culture Roof</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Sportpark_Marslanden.html">Sportpark</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Vacation_Home.html">Vacation Home</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">CONTACT</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="contact.html">Contact Me</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Full-Screen Sections with Background Images -->
+    <main>
+        <div class="content-wrapper">
+            <section class="contact-card unified">
+                <div class="contact-info">
+                    <h2>Contact Me</h2>
+                    <p>Email: thijssmit18@gmail.com</p>
+                    <p>Phone: +31 6 40821557</p>
+                    <p>Location: Zwolle, Netherlands</p>
+                    <p>
+                        <a href="https://www.linkedin.com/in/thijs-smit/" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: middle; margin-right: 4px;">
+                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.473 0 16 .513 
+                                16 1.146v13.708c0 .633-.526 1.146-1.175 
+                                1.146H1.175C.527 16 0 15.487 0 
+                                14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 
+                                0 1.358-.554 1.358-1.248-.015-.71-.52-1.248-1.342-1.248C3.1 
+                                2.686 2.58 3.224 2.58 3.934c0 .694.52 
+                                1.248 1.333 1.248h.016zm4.908 
+                                8.212V9.359c0-.216.016-.432.08-.586.174-.432.571-.88 
+                                1.238-.88.873 0 1.22.664 1.22 1.637v3.864h2.4V9.25c0-2.22-1.184-3.252-2.763-3.252-1.28 
+                                0-1.845.7-2.165 1.193h.016V6.169h-2.4c.03.7 0 7.225 0 7.225h2.4z"/>
+                            </svg>
+                            LinkedIn
+                        </a>
+                    </p>
+                </div>
+                <div class="contact-image">
+                    <img src="images/profielfoto.jpg" alt="Profile" class="fixed-image">
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

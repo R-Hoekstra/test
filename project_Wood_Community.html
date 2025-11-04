@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wood Community | Architecture Portfolio</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link href="main.css" rel="stylesheet">
+  <link href="project.css" rel="stylesheet">
+</head>
+<body style="background-color: #09141e;">
+  <!-- Header -->
+  <div id="header">
+    <a href="home.html" class="header-logo-group">
+      <img src="images/icon.png" alt="Site Logo" class="header-logo-img">
+      <h1 class="home-name">THIJS SMIT</h1>
+    </a>
+    <div id="name-container">
+      <a class="nav-link-header">
+      </a>
+    </div>
+    <button class="menu-toggle"></button>
+    <div class="menu-overlay"></div>
+    <div id="wb_CssMenu1">
+      <ul id="CssMenu1" class="nav">
+        <li role="menuitem" class="nav-item nav-title"><a class="nav-link-title">HOME PAGE</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="home.html">Thijs Smit</a></li>
+        <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">PROJECTS</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Wood_Community.html">Wood Community</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Culture_Roof.html">Culture Roof</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Sportpark_Marslanden.html">Sportpark</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Vacation_Home.html">Vacation Home</a></li>
+        <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">CONTACT</a></li>
+        <li role="menuitem" class="nav-item"><a class="nav-link" href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main>
+
+  <section class="hero-background" data-bg="images/wood_Community_Final_Render.jpg">
+  <div class="darker"></div>
+
+    <!-- Left card -->
+    <div class="hero-card hero-card-left">
+      <h2>The Wood Community</h2>
+    </div>
+
+    <!-- Right card containing the hero text -->
+    <div class="hero-card hero-card-right">
+      <div class="hero-content">
+        <h1>Design</h1>
+        <p>The Wood community offers a wide variety of apartments and vibrant community spaces on both the Ground Floor and First Floor.</p>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+        〉
+    </div>
+  </section>
+
+  <section class="portfolio-wrapper hidden-until-load">
+    <!-- Left Arrow -->
+    <button class="arrow arrow-left">&#10094;</button>
+
+    <!-- Slider Container -->
+    <div class="portfolio-slider">
+      <!-- Portfolio Cards -->
+      <div class="portfolio-card">
+        <div class="portfolio-info">
+          <h2>Residential</h2>
+          <p><strong>Location:</strong> Gothenburg, Sweden</p>
+          <p><strong>Year:</strong> 2024</p>
+          <p><strong>Size:</strong> 566 m²</p>
+          <p>The First Floor is seamlessly aligned with the sloping courtyard on the west side of the building.</p>
+          <img src="images/wood_Community_Final_Render.jpg" alt="Project 1" class="info-image gallery-image">
+        </div>
+        <div class="portfolio-gallery">
+          <img src="images/wood_Community_square.jpg" alt="Project 1" class="gallery-image">
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-info">
+          <h2>Project Two</h2>
+          <p><strong>Location:</strong> Amsterdam, Netherlands</p>
+          <p><strong>Year:</strong> 2024</p>
+          <p><strong>Size:</strong> 180 m²</p>
+          <p>Integer vel orci at est suscipit tincidunt.</p>
+          <img src="images/wood_Community_square.jpg" alt="Project 1 Thumbnail" class="info-image gallery-image">
+        </div>
+        <div class="portfolio-gallery">
+          <img src="images/wood_Community_Final_Render.jpg" alt="Project 2" class="gallery-image">
+        </div>
+      </div>
+
+      <div class="portfolio-card">
+        <div class="portfolio-info">
+          <h2>Project One</h2>
+          <p><strong>Location:</strong> Zwolle, Netherlands</p>
+          <p><strong>Year:</strong> 2025</p>
+          <p><strong>Size:</strong> 250 m²</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <img src="images/wood_Community_Final_Render.jpg" alt="Project 1" class="info-image gallery-image">
+        </div>
+        <div class="portfolio-gallery">
+          <img src="images/wood_Community_square.jpg" alt="Project 1" class="gallery-image">
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Arrow -->
+    <button class="arrow arrow-right">&#10095;</button>
+  </section>
+</main>
+
+
+  <!-- Lightbox (accessible dialog) -->
+  <div
+    id="lightbox"
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lightbox-title"
+    aria-describedby="lightbox-desc"
+    tabindex="-1"
+    hidden
+  >
+    <!-- Screen-reader only helpers -->
+    <h2 id="lightbox-title" class="sr-only">Image viewer</h2>
+    <p id="lightbox-desc" class="sr-only">
+      Use Left and Right arrow keys to navigate images. Press Escape to close.
+    </p>
+
+    <!-- Close as a real button -->
+    <button type="button" class="close" aria-label="Close">&times;</button>
+
+    <!-- The viewed image -->
+    <img class="lightbox-content" id="lightbox-img" alt="">
+
+    <!-- Nav buttons as real buttons -->
+    <button type="button" class="prev" aria-label="Previous image">&#10094;</button>
+    <button type="button" class="next" aria-label="Next image">&#10095;</button>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+  <script src="project.js"></script>
+</body>
+</html>

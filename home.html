@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Android / modern browsers -->
+    <meta name="theme-color" content="#123456" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+
+    <!-- iOS PWA status bar -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link href="main.css" rel="stylesheet">
+    <link href="home.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <title>Thijs Smit | Architecture</title>
+</head>
+<body>
+    <!-- Header -->
+    <div id="header">
+        <!-- <a class="header-logo">
+          <img src="images/icon.png" alt="Site Logo">
+        </a>
+        <div id="name-container">
+            <a class="nav-link-header" href="#section1">
+                <h1 class="name">THIJS SMIT</h1>
+            </a>
+        </div> -->
+        <a href="#section1" class="header-logo-group">
+            <img src="images/icon.png" alt="Site Logo" class="header-logo-img">
+            <h1 class="home-name">THIJS SMIT</h1>
+        </a>
+        <div id="name-container">
+            <a class="nav-link-header">
+            </a>
+        </div>
+
+         <!-- The Hamburger Button (Only one) -->
+         <button class="menu-toggle"></button>  <!-- Button will hold the hamburger icon -->
+         <div class="menu-overlay"></div> <!-- Background Overlay -->       
+         <div id="wb_CssMenu1">
+            <ul id="CssMenu1" class="nav">
+                <li role="menuitem" class="nav-item nav-title"><a class="nav-link-title">PROJECTS</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Wood_Community.html">Wood Community</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Culture_Roof.html">Culture Roof</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Sportpark_Marslanden.html">Sportpark</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="project_Vacation_Home.html">Vacation Home</a></li>
+               <li role="menuitem" class="nav-item nav-title2"><a class="nav-link-title">CONTACT</a></li>
+               <li role="menuitem" class="nav-item"><a class="nav-link" href="contact.html">Contact Me</a></li>
+            </ul>
+        </div> 
+    </div>
+
+    <!-- Full-Screen Sections with Background Images -->
+    <main>
+        <section id="section1" class="bg-image">
+            <div class="content-wrapper-home">
+                <div class="content">
+                    <div class="navigation">
+                        <h2 class="navigation-text school-assignment">The Wood Community | Design</h2>
+                        <a href="project_Wood_Community.html"><h2 class="navigation-text vacation-home-button">EXPLORE PROJECT</h2></a>
+                        <h2 class="navigation-text zwolle-text">Gothenburg, Sweden 2024</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                〉
+            </div>
+        </section>
+        <section id="section2" class="bg-image">
+            <div class="content-wrapper-home">
+                <div class="content">
+                    <div class="navigation">
+                        <h2 class="navigation-text school-assignment">Culture Roof Zwolle Zuid | Redesign</h2>
+                        <a href="project_Culture_Roof.html"><h2 class="navigation-text vacation-home-button">LEARN MORE</h2></a>
+                        <h2 class="navigation-text zwolle-text">Zwolle, Netherlands 2022</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                ⟩
+            </div>
+        </section>
+        <section id="section3" class="bg-image">
+            <div class="content-wrapper-home">
+                <div class="content">
+                    <div class="navigation">
+                        <h2 class="navigation-text school-assignment">Sportpark Marslanden | Design</h2>
+                        <a href="project_Sportpark_Marslanden.html"><h2 class="navigation-text vacation-home-button">VIEW DETAILS</h2></a>
+                        <h2 class="navigation-text zwolle-text">Zwolle, Netherlands 2023</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                ⟩
+            </div>
+        </section>        
+        <section id="section4" class="bg-image">
+            <div class="content-wrapper-home">
+                <div class="content">
+                    <div class="navigation">
+                        <h2 class="navigation-text school-assignment">Vacation Home Buitenwaarden | Design</h2>
+                        <a href="project_Vacation_Home.html"><h2 class="navigation-text vacation-home-button">MORE INFO</h2></a>
+                        <h2 class="navigation-text zwolle-text">Zwolle, Netherlands 2021</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Modal for Image Popup -->
+    <div id="image-modal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-image">
+        <div id="caption"></div>
+    </div>
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Thijs Smit | All rights reserved</p>
+        </div>
+    </footer>
+    <script src="main.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>
