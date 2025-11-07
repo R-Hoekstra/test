@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const AO_alphaForLuminance = (L_img) => {
     // Debug: confirm live + show luminance
-    console.log("✅ AO_alphaForLuminance running", { L_img });
+    console.log("✅ to make sure it is new ", { L_img });
 
     // If already dark, still keep a minimum overlay so hover can brighten
     if (L_img <= AO_L_TARGET_MAX) {
