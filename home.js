@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const AO_TARGET_CONTRAST = 4.5; // WCAG AA for normal text
   const AO_L_TARGET_MAX = (1.0 + 0.05) / AO_TARGET_CONTRAST - 0.05; // ≈ 0.183
   const AO_MAX_ALPHA = 0.85; // upper bound to avoid over-darkening
-  const AO_DEFAULT_ALPHA = 0.6; // safe fallback when sampling fails
+  const AO_DEFAULT_ALPHA = 0.7; // safe fallback when sampling fails
   const AO_SAMPLE_SIZE = 32; // small for speed
 
   const AO_toLinear = (c) => {
@@ -111,10 +111,22 @@ document.addEventListener("DOMContentLoaded", () => {
     return sum / (data.length / 4);
   };
 
+  const AO_MIN_ALPHA = 0.7;
+
   const AO_alphaForLuminance = (L_img) => {
-    if (L_img <= AO_L_TARGET_MAX) return 0; // already dark enough
+    // Debug: confirm live + show luminance
+    console.log("✅ AO_alphaForLuminance running", { L_img });
+
+    // If already dark, still keep a minimum overlay so hover can brighten
+    if (L_img <= AO_L_TARGET_MAX) {
+      return AO_MIN_ALPHA;
+    }
+
+    // Normal computed alpha
     const a = 1 - AO_L_TARGET_MAX / Math.max(L_img, 1e-6);
-    return Math.max(0, Math.min(AO_MAX_ALPHA, a));
+    const clamped = Math.max(AO_MIN_ALPHA, Math.min(AO_MAX_ALPHA, a));
+
+    return clamped;
   };
 
   const AO_applyOverlayAlpha = (section, alpha) => {

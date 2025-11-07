@@ -11,8 +11,8 @@
   /* Slimmer, consistent header height */
   --header-min-h: clamp(40px, 6vh, 57px);
 
-  --header-bg-opaque:rgba(0,0,0,0.8);
-  --header-bg-top:rgba(244,244,244,0);
+  --header-bg-opaque: #040a0f;
+  --header-bg-top: rgba(244, 244, 244, 0);
   --footer-h:4vh;
   --radius:12px;
   --elev-sm:0 4px 12px rgba(0,0,0,0.4);
@@ -32,7 +32,7 @@ body.loaded{opacity:1;}
 ::selection{background:#fff;color:#000}
 ::-moz-selection{background:#fff;color:#000}
 a,img,button{-webkit-tap-highlight-color:transparent;outline:none;}
-main{flex:1}
+main{flex:1;}
 
 /* =========================
    Header (shared)
@@ -142,16 +142,15 @@ main{flex:1}
 
 .menu-overlay{
   position:fixed; top:0; right:0; height:100dvh;
-  width:min(90vw,360px);
+  width: clamp(250px, 70vw, 320px);
   background-color:var(--color-surface);
   backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   border-top-left-radius:16px; border-bottom-left-radius:16px;
-  box-shadow:-24px 0 48px rgba(0,0,0,.35);
   transform:translateX(100%);
   transition:transform 280ms ease;
   z-index: 1050;
 }
-.menu-overlay.active{ width:clamp(180px,25vw,320px); transform:translateX(0); }
+.menu-overlay.active{ transform:translateX(0); box-shadow:-24px 0 48px rgba(0,0,0,.35); }
 
 #wb_CssMenu1{
   position:absolute;
@@ -199,7 +198,8 @@ main{flex:1}
   color:#fff; text-align:center; width:100%;
   height:var(--footer-h);
   display:flex; align-items:center; justify-content:center;
-  z-index:2;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  z-index:1000;
 }
 .footer-content p{margin:0; font-size:.9rem;}
 

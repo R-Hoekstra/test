@@ -42,7 +42,7 @@ a, img, button {
 /* === NEW UNIFIED CONTACT CARD === */
 .content-wrapper {
     display: flex;
-    height: 100vh;
+    min-height: calc(100vh - var(--footer-h));
     width: 100%;
     align-items: center;
     justify-content: center;

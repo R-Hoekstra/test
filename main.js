@@ -157,7 +157,7 @@
           header.classList.remove("hidden");
           if (!specialNoBg) {
             // optional: leave background styling to CSS if you prefer
-            header.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            header.style.backgroundColor = "#040a0f";
           }
         }
 
