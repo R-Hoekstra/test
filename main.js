@@ -17,6 +17,45 @@
     // ---- Helpers ----
     const root = document.documentElement;
 
+    const createLoadingBar = () => {
+      let bar = document.getElementById("page-loading-bar");
+      if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "page-loading-bar";
+        document.body.prepend(bar);
+      }
+      return bar;
+    };
+
+    const loadingBar = createLoadingBar();
+
+    const startLoadingBar = (fromZero = false) => {
+      if (!loadingBar) return;
+
+      if (fromZero) {
+        loadingBar.style.transition = "none";
+        loadingBar.style.width = "0";
+        loadingBar.offsetWidth; // force reflow
+        loadingBar.style.transition =
+          "width 0.4s ease-out, opacity 0.2s ease-out";
+      }
+
+      loadingBar.style.opacity = "1";
+      loadingBar.style.width = "60%"; // quick visible jump like NOS
+    };
+
+    const finishLoadingBar = () => {
+      if (!loadingBar) return;
+
+      loadingBar.style.opacity = "1";
+      loadingBar.style.width = "100%";
+
+      // hide shortly after reaching full width
+      setTimeout(() => {
+        loadingBar.style.opacity = "0";
+      }, 250);
+    };
+
     const updateLayoutVars = () => {
       const headerH = header
         ? Math.round(header.getBoundingClientRect().height)
@@ -63,10 +102,17 @@
       });
     };
 
-    // ---- Fade-in once styles are applied ----
+    // Start on initial page render
+    requestAnimationFrame(() => {
+      startLoadingBar(true);
+    });
+
     window.addEventListener("load", () => {
-      requestAnimationFrame(() => document.body.classList.add("loaded"));
-      updateLayoutVars();
+      requestAnimationFrame(() => {
+        document.body.classList.add("loaded");
+        updateLayoutVars();
+        finishLoadingBar(); // <-- ONLY here it completes
+      });
     });
 
     window.addEventListener("resize", updateLayoutVars);
@@ -113,13 +159,21 @@
         highlightActiveLink(href);
 
         if (isHash(href)) {
+          // In-page scroll only
           const id = href.slice(1);
           const target = document.getElementById(id);
           if (target) {
             e.preventDefault();
             target.scrollIntoView({ behavior: "smooth", block: "start" });
           }
-          closeMenu(); // close drawer after in-page nav
+          closeMenu();
+          return;
+        }
+
+        // For normal navigation to another page on this site:
+        if (href && !href.startsWith("http") && !href.startsWith("mailto:")) {
+          startLoadingBar(true);
+          // let the browser continue navigation normally
         }
       });
     });

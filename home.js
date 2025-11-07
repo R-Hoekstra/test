@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Config (tweak if you'd like)
   const AO_TARGET_CONTRAST = 4.5; // WCAG AA for normal text
   const AO_L_TARGET_MAX = (1.0 + 0.05) / AO_TARGET_CONTRAST - 0.05; // ≈ 0.183
-  const AO_MAX_ALPHA = 0.85; // upper bound to avoid over-darkening
-  const AO_DEFAULT_ALPHA = 0.7; // safe fallback when sampling fails
+  const AO_MAX_ALPHA = 0.7; // upper bound to avoid over-darkening
+  const AO_DEFAULT_ALPHA = 0.6; // safe fallback when sampling fails
   const AO_SAMPLE_SIZE = 32; // small for speed
 
   const AO_toLinear = (c) => {
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return sum / (data.length / 4);
   };
 
-  const AO_MIN_ALPHA = 0.7;
+  const AO_MIN_ALPHA = 0.6;
 
   const AO_alphaForLuminance = (L_img) => {
     // Debug: confirm live + show luminance

@@ -11,6 +11,10 @@
   /* Slimmer, consistent header height */
   --header-min-h: clamp(40px, 6vh, 57px);
 
+  --loading-bar-height: 3px;
+  --loading-bar-color: var(--color-muted);
+  /* --loading-bar-color: #ff2a2a; */
+
   --header-bg-opaque: #040a0f;
   --header-bg-top: rgba(244, 244, 244, 0);
   --footer-h:4vh;
@@ -25,15 +29,13 @@ body{
   line-height:1.6;
   background-color:var(--color-bg);
   color:var(--color-text);
-  opacity:0;                 /* fades in via main.js */
-  transition:opacity 1s ease-in-out;
+  opacity:1;                 /* fades in via main.js */
 }
-body.loaded{opacity:1;}
 ::selection{background:#fff;color:#000}
 ::-moz-selection{background:#fff;color:#000}
 a,img,button{-webkit-tap-highlight-color:transparent;outline:none;}
-main{flex:1;}
-
+main{ flex:1; opacity: 0; transition: opacity 0.5s ease; } 
+body.loaded main { opacity: 1; }
 /* =========================
    Header (shared)
    Grid layout: [logo] [center title] [burger]
@@ -100,6 +102,23 @@ main{flex:1;}
 .header-logo-group:hover .home-name::after{
   transform:scaleX(1);
   transform-origin:bottom left;
+}
+
+#page-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0; /* JS drives this */
+  height: var(--loading-bar-height);
+  background-color: var(--loading-bar-color);
+  z-index: 1200; /* above header */
+  opacity: 0;    /* hidden until JS starts it */
+  pointer-events: none;
+  transform-origin: left center;
+  transition:
+    width 0.4s ease-out,
+    opacity 0.2s ease-out;
+  /* box-shadow: 0 0 6px var(--loading-bar-color); */
 }
 
 /* Center title/name (stays centered regardless of L/R width) */
