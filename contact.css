@@ -42,10 +42,15 @@ a, img, button {
 /* === NEW UNIFIED CONTACT CARD === */
 .content-wrapper {
     display: flex;
-    min-height: calc(100vh - var(--footer-h) - var(--header-h, 0px));
+    min-height: calc(
+        100vh
+        - var(--footer-h)
+        - env(safe-area-inset-bottom, 0)
+    );
     width: 100%;
     align-items: center;
     justify-content: center;
+    /* padding-bottom: env(safe-area-inset-bottom, 0); */
 }
 
 .contact-card.unified {

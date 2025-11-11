@@ -41,7 +41,7 @@
       }
 
       loadingBar.style.opacity = "1";
-      loadingBar.style.width = "60%"; // quick visible jump like NOS
+      loadingBar.style.width = "60%";
     };
 
     const finishLoadingBar = () => {
@@ -103,9 +103,9 @@
     };
 
     // Start on initial page render
-    requestAnimationFrame(() => {
-      startLoadingBar(true);
-    });
+    // requestAnimationFrame(() => {
+    //   startLoadingBar(true);
+    // });
 
     window.addEventListener("load", () => {
       requestAnimationFrame(() => {
