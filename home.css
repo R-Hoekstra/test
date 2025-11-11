@@ -149,7 +149,6 @@ section {
   background-size: cover;
   background-position: center;
   height: 100vh;
-  height: 100dvh;
 }
 
 .bg-image {
@@ -457,6 +456,12 @@ section.bg-image > * {
   .menu-overlay {
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
+  }
+}
+
+@supports (height: 100svh) {
+  section {
+    height: 100svh;   /* use “small viewport height” = stable visible area */
   }
 }
 
