@@ -13,6 +13,29 @@
       (el) => el && el.getAttribute && el.getAttribute("href")
     );
     const sections = document.querySelectorAll("main section[id]");
+    const headerLogo = document.querySelector(".header-logo-group");
+    const isTouch =
+      "ontouchstart" in window ||
+      (window.matchMedia &&
+        window.matchMedia("(hover: none) and (pointer: coarse)").matches);
+
+    // Mark touch devices so CSS can adjust behavior
+    if (isTouch) {
+      document.documentElement.classList.add("is-touch");
+    }
+
+    // Mobile/touch: simulate hover underline on tap
+    if (headerLogo && isTouch) {
+      headerLogo.addEventListener("click", () => {
+        // show underline (grow left → right)
+        headerLogo.classList.add("tap-underline");
+
+        // remove after the same time as the CSS transition
+        setTimeout(() => {
+          headerLogo.classList.remove("tap-underline");
+        }, 250); // must match 0.25s in CSS
+      });
+    }
 
     // ---- Helpers ----
     const root = document.documentElement;

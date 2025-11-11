@@ -105,6 +105,18 @@ body.loaded main { opacity: 1; }
   transform-origin:bottom left;
 }
 
+/* Touch devices: disable sticky :hover and use JS-driven tap class */
+.is-touch .header-logo-group:hover .home-name::after {
+  transform: scaleX(0); /* prevent tap-triggered sticky hover */
+  transform-origin:bottom right;
+}
+
+/* When tapped on touch: behave like hover (L → R) */
+.is-touch .header-logo-group.tap-underline .home-name::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
 #page-loading-bar {
   position: fixed;
   top: 0;
