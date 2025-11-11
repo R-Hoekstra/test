@@ -437,6 +437,13 @@ section.bg-image > * {
   }
 }
 
+@media (max-width: 700px) {
+  .navigation {
+    left: 4%; 
+  }
+}
+
+
 /* Optional: nicer edge on very small screens */
 @media (max-width: 420px) {
   .menu-overlay {

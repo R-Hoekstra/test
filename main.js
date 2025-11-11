@@ -103,9 +103,9 @@
     };
 
     // Start on initial page render
-    // requestAnimationFrame(() => {
-    //   startLoadingBar(true);
-    // });
+    requestAnimationFrame(() => {
+      startLoadingBar(true);
+    });
 
     window.addEventListener("load", () => {
       requestAnimationFrame(() => {

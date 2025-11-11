@@ -109,7 +109,7 @@ a, img, button {
   position: relative;              /* allows underline to attach properly */
   display: inline-block;           /* underline width = text width */
   font-family: 'Arial', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.6rem);  /* slightly bigger */
+  font-size: clamp(2.8rem, 5vw, 3.6rem);  /* slightly bigger */
   color: #ffffff;
   text-align: center;
 }
@@ -131,6 +131,10 @@ a, img, button {
 .intro-link:hover .intro-title::after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+.intro-title .mobile {
+  display: none;
 }
 
 /* Optional image if you add one later */
@@ -204,8 +208,25 @@ a, img, button {
     padding: 40px 10px;
   }
 
+  .intro-title .desktop {
+    display: none;
+  }
+
+  .intro-title .mobile {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center; 
+    line-height: 1.2;
+    display: inline-flex;
+  }
+
+  .intro-title .mobile-line {
+    display: block;
+  }
+
   .intro-title {
-    margin: 0 1rem 15px 1rem;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: 0.5rem;
   }
 
   .intro-image {
