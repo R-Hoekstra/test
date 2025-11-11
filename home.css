@@ -140,7 +140,6 @@ a, img, button {
 
 /* Section Styling */
 section {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,6 +148,16 @@ section {
   position: relative;
   background-size: cover;
   background-position: center;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Ensure bg-image sections can host the overlay */
@@ -169,6 +178,15 @@ section.bg-image::before {
 
 /* Keep your hover effect but make it relative to the computed base */
 section.bg-image:hover::before {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    max(0.2, calc(var(--overlay-alpha, 0.7) - 0.2))
+  );
+}
+
+section.bg-image.is-active::before {
   background-color: rgba(
     0,
     0,
@@ -240,16 +258,6 @@ section.bg-image > * {
   display: flex;
   align-items: center;
 }
-
-.bg-image {
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 
 /* Modal Styling */
 .modal {
@@ -449,5 +457,12 @@ section.bg-image > * {
   .menu-overlay {
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  section,
+  .bg-image {
+    min-height: 100svh;
   }
 }

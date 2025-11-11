@@ -204,6 +204,43 @@ document.addEventListener("DOMContentLoaded", () => {
     targets.forEach((s) => io.observe(s));
   };
 
+  // --------------------------------------------
+  // Mobile: lighten section when it scrolls into view
+  // --------------------------------------------
+  const bgSections = document.querySelectorAll("section.bg-image");
+
+  // Only run this on touch / mobile-ish devices.
+  const isTouch =
+    "ontouchstart" in window ||
+    (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+
+  if (isTouch && "IntersectionObserver" in window && bgSections.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the intersecting entry with the largest visible area
+        let winner = null;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (!winner || entry.intersectionRatio > winner.intersectionRatio) {
+              winner = entry;
+            }
+          }
+        });
+
+        if (winner) {
+          bgSections.forEach((sec) => {
+            sec.classList.toggle("is-active", sec === winner.target);
+          });
+        }
+      },
+      {
+        threshold: [0.3, 0.5, 0.7], // section needs to be reasonably in view
+      }
+    );
+
+    bgSections.forEach((sec) => observer.observe(sec));
+  }
+
   // 👉 Call the setup once your other observers are in place
   AO_setupAdaptiveOverlays();
 });
