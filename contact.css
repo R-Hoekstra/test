@@ -154,12 +154,12 @@ a, img, button {
     .contact-card.unified {
         flex-direction: column;
 
-        min-height: calc(
-            100vh     /* normal vh fallback */
+        /* min-height: calc(
+            100vh    
             - var(--header-h, 56px)
             - var(--footer-h-px, 48px)
-            - 10vh    /* extra push to grow downward */
-        );
+            - 10vh    
+        ); */
         max-height: calc(
             100dvh
             - var(--header-h, 56px)
