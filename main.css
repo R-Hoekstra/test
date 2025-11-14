@@ -233,12 +233,44 @@ body.loaded main { opacity: 1; }
 .nav-title2 + .nav-item .nav-link { margin-top: 2px; }
 .nav-link{ padding: 6px 12px; line-height: 1.2; }
 .nav-link-title{ padding: 4px 10px; }
-.nav-link{ color:#fff; font-size:clamp(.8rem,1.2vw,1.2rem); position:relative; }
-.nav-link::after{
-  content:''; position:absolute; bottom:0; left:0; width:100%; height:1px;
-  background:#ccc; transform:scaleX(0); transform-origin:bottom right; transition:transform .2s ease;
+.nav-link {
+  color:#fff;
+  font-size: clamp(.8rem,1.2vw,1.2rem);
+  position: relative;
+  text-align: right;          /* keep text aligned right */
 }
-.nav-link:hover::after{ transform:scaleX(1); transform-origin:bottom left; }
+
+.nav-link .nav-text {
+  position: relative;
+  display: inline-block;      /* width = only the text */
+}
+
+/* Underline is now bound to the text span */
+.nav-link .nav-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;               /* tweak to taste */
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform .2s ease;
+}
+
+/* Hover underline */
+.nav-link:hover .nav-text::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Keep underline when link is "active" (clicked/current page) */
+.nav-link.active .nav-text::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
 .nav-link-title{ color:#ccc; font-weight:bold; font-size:clamp(1rem,1.4vw,1.4rem); }
 
 /* =========================
