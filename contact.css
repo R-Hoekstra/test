@@ -153,8 +153,15 @@ a, img, button {
 
     .contact-card.unified {
         flex-direction: column;
-        height: 80dvh;
-        margin-top: 5vh;
+        max-height: calc(
+            100dvh
+            - var(--header-h, 56px)
+            - var(--footer-h-px, 48px)
+            - env(safe-area-inset-bottom, 0px)
+            - 24px
+        );
+
+        margin-top: 0;
     }
 
     .contact-card.unified .contact-info {
