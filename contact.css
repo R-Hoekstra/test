@@ -134,29 +134,29 @@ a, img, button {
 /* === RESPONSIVENESS === */
 @media (max-width: 900px) {
     #header {
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center-align items */
-    padding: 0 20px;
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center-align items */
+        padding: 0 20px;
     }
     
     .menu-toggle {
-    display: block;
-    /* font-size: clamp(1.4rem, 1.8vh, 1.9rem); */
-    font-size: clamp(1.4rem, 2.4vh, 2.5rem);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1200;
+        display: block;
+        /* font-size: clamp(1.4rem, 1.8vh, 1.9rem); */
+        font-size: clamp(1.4rem, 2.4vh, 2.5rem);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1200;
     }
 
     .nav-link {
-    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
-    color: rgba(244, 244, 244);
+        font-size: clamp(1.2rem, 1.2vw, 1.2rem);
+        color: rgba(244, 244, 244);
     }
 
     .contact-card.unified {
@@ -175,7 +175,7 @@ a, img, button {
             - env(safe-area-inset-bottom, 0px)
             - 24px
         );
-
+        gap: 0;
         margin-top: 0;
     }
 
@@ -223,6 +223,46 @@ a, img, button {
         - env(safe-area-inset-bottom, 0)
     );
   }
+}
+
+/* ============================================
+   VERY SMALL SCREENS → max-height: 550px
+   Ensures the card never gets cut off
+=============================================== */
+@media (max-height: 550px) {
+
+    .content-wrapper {
+        /* allow scrolling on tiny screens */
+        min-height: auto;
+
+        /* NEW — balance the vertical spacing */
+        padding-top: 3rem;       /* push card down */
+        padding-bottom: 4rem;    /* maintain footer space */
+    }
+
+    .contact-card.unified {
+        flex-direction: column;
+        height: auto;
+        max-height: none;
+        width: 94%;
+        padding: 20px;
+        gap: 1.2rem;
+
+        /* NEW — create slight “float” effect */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .contact-card.unified .contact-image {
+        width: 70%;
+        height: auto;
+        max-height: 200px;
+        margin: 0 auto;
+    }
+
+    #footer {
+        margin-top: 1.5rem;  /* small boost so footer doesn't hug the card */
+    }
 }
 
 /* Respect reduced motion */

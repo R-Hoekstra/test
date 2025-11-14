@@ -365,70 +365,24 @@ section.bg-image > * {
     font-size: 1.4rem; /* or whatever fixed size you want for phones */
   }
 
-  /* Style for the toggle button */
-  .menu-toggle {
-    display: block;
-    font-size: clamp(1.4rem, 1.8vh, 1.9rem);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1200;
+  /* School Assignment (Bold, Clean Font) */
+  .school-assignment {
+    font-size: clamp(1.3rem, 3vw, 2.5rem); /* Responsive font size based on viewport width */
   }
 
-  .menu-toggle::before {
-    content: "☰";
+  /* Vacation Home Button */
+  .vacation-home-button {
+    font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Font size adjusts based on viewport width */
   }
 
-  .menu-toggle.active::before {
-    content: "✖";
-    color: rgba(244, 244, 244);
+  /* Zwolle, Overijsel Text */
+  .zwolle-text {
+    font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Smaller responsive font size */
   }
 
-  /* Navigation menu items */
-  .nav {
-    display: none;
-    flex-direction: column;
-    width: 100%;
+  #footer {
+    height: 4vh;
   }
-
-  .nav.active {
-    display: flex;
-  }
-
-  .nav-item {
-    width: 100%;
-    text-align: right;
-  }
-
-  .nav-link {
-    /* font-size: 1.2vw; */
-    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
-    color: rgba(244, 244, 244);
-  }
-
-/* School Assignment (Bold, Clean Font) */
-.school-assignment {
-  font-size: clamp(1.3rem, 3vw, 2.5rem); /* Responsive font size based on viewport width */
-}
-
-/* Vacation Home Button */
-.vacation-home-button {
-  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Font size adjusts based on viewport width */
-}
-
-/* Zwolle, Overijsel Text */
-.zwolle-text {
-  font-size: clamp(0.7rem, 1.8vw, 1.5rem); /* Smaller responsive font size */
-}
-
-#footer {
-  height: 4vh;
-}
 }
 
 @media (max-width: 900px) {

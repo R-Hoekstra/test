@@ -195,10 +195,29 @@ body.loaded main { opacity: 1; }
   z-index: 1060;
 }
 .nav{
-  list-style:none; display:none; flex-direction:column; width:100%;
-  padding: 6px 8px 10px; row-gap: 4px;
+  list-style: none;
+  display: flex;                  /* always flex, but hidden via opacity */
+  flex-direction: column;
+  width: 100%;
+  padding: 6px 8px 10px;
+  row-gap: 4px;
+
+  /* new fade/slide-in behaviour */
+  opacity: 0;
+  transform: translateX(8px);
+  pointer-events: none;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
 }
-.nav.active{display:flex;}
+.nav.active{
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+
+  /* wait for the overlay slide (280ms in .menu-overlay) */
+  transition-delay: 180ms;
+}
 .nav-item{ position:relative; }
 .nav-title,.nav-title2{
   margin: 6px 0 4px;
