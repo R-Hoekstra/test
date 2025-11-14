@@ -404,48 +404,62 @@ main {
     text-align: left;
   }
 
-  /* === NEW: make the portfolio slide fill the screen === */
+  /* ------------------------------------------------------------------
+     PORTFOLIO WRAPPER – full-screen snap container
+     ------------------------------------------------------------------ */
   .portfolio-wrapper {
-    min-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px)));
+    min-height: 100dvh;                     /* fill screen */
+    padding: 0;                             /* let .portfolio-card handle inner spacing */
+    box-sizing: border-box;
     display: flex;
-    align-items: center;        /* vertically centre card */
+    align-items: center;                    /* vertical centre (optional) */
+    scroll-snap-align: start;               /* snap to top of this section */
   }
 
+  /* ------------------------------------------------------------------
+     PORTFOLIO SLIDER – keep it flexible
+     ------------------------------------------------------------------ */
   .portfolio-slider {
     top: 0;
-    transform: none;            /* no translateY on mobile */
-    height: 96vh;
+    transform: none;
+    height: auto;                           /* let content dictate height */
     min-height: 0;
+    padding: 0;
+    display: flex;
     align-items: center;
-    /* padding-top: 5vh; */
+    justify-content: center;
   }
 
-  /* wider card that still fits between header + footer */
+  /* ------------------------------------------------------------------
+     PORTFOLIO CARD – full width, padded, never overflows
+     ------------------------------------------------------------------ */
   .portfolio-card {
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    padding-top: 1.5rem;
-    padding-bottom: 1.25rem;
-    padding-left: 5vh;
-    padding-right: 5vh;
+    padding: 2rem 6vh 0 6vh;
     box-sizing: border-box;
-    max-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px) + 12px));
+    gap: 1.5rem;
+    min-height: calc(100dvh - var(--header-h, 0px) - var(--footer-h-px));
+    scroll-snap-align: start;
   }
 
+  /* ------------------------------------------------------------------
+     INFO & GALLERY – full width, no forced height
+     ------------------------------------------------------------------ */
   .portfolio-info,
   .portfolio-gallery {
     width: 100%;
     max-width: 100%;
     padding: 0;
+    flex: 0 1 auto;                         /* don’t force equal height */
   }
 
   .portfolio-info {
     order: 1;
-    /* margin-bottom: 1rem; */
     text-align: center;
     align-items: center;
     font-size: 0.95rem;
@@ -455,13 +469,26 @@ main {
     order: 2;
   }
 
-  /* keep images from eating all the height */
+  /* ------------------------------------------------------------------
+     IMAGES – cap height so they never push the section off-screen
+     ------------------------------------------------------------------ */
   .gallery-image,
   .portfolio-gallery img,
   .info-image {
-    max-height: 32vh;
+    max-height: 35vh;                       /* safe on small screens */
     width: 100%;
     object-fit: cover;
+    border-radius: 10px;
+  }
+
+  /* ------------------------------------------------------------------
+     ARROWS – keep them inside the viewport
+     ------------------------------------------------------------------ */
+  .arrow {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(2rem, 5vw, 3rem);
+    padding: 0.4rem;
   }
 
   /* header/nav tweaks you already had */
@@ -477,7 +504,7 @@ main {
     color: rgba(244, 244, 244);
   }
   #name-container a .name::after { display: none; content: none; }
-  .arrow { padding: 0; }
+
 }
 
 /* ===== FIX: Allow scrolling when screen height is too small ===== */
