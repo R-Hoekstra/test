@@ -206,6 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --------------------------------------------
   // Mobile: lighten section when it scrolls into view
+  // (scroll-based, works reliably on Chrome mobile)
   // --------------------------------------------
   const bgSections = document.querySelectorAll("section.bg-image");
 
@@ -214,31 +215,34 @@ document.addEventListener("DOMContentLoaded", () => {
     "ontouchstart" in window ||
     (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 
-  if (isTouch && "IntersectionObserver" in window && bgSections.length) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the intersecting entry with the largest visible area
-        let winner = null;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (!winner || entry.intersectionRatio > winner.intersectionRatio) {
-              winner = entry;
-            }
-          }
-        });
+  if (isTouch && bgSections.length) {
+    const detectActiveSection = () => {
+      let winner = null;
+      let maxVisible = 0;
+      const viewportH =
+        window.innerHeight || document.documentElement.clientHeight;
 
-        if (winner) {
-          bgSections.forEach((sec) => {
-            sec.classList.toggle("is-active", sec === winner.target);
-          });
+      bgSections.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        const visible =
+          Math.min(rect.bottom, viewportH) - Math.max(rect.top, 0);
+
+        if (visible > maxVisible) {
+          maxVisible = visible;
+          winner = sec;
         }
-      },
-      {
-        threshold: [0.3, 0.5, 0.7], // section needs to be reasonably in view
-      }
-    );
+      });
 
-    bgSections.forEach((sec) => observer.observe(sec));
+      if (winner) {
+        bgSections.forEach((sec) => {
+          sec.classList.toggle("is-active", sec === winner);
+        });
+      }
+    };
+
+    window.addEventListener("scroll", detectActiveSection, { passive: true });
+    window.addEventListener("resize", detectActiveSection);
+    detectActiveSection(); // run once on load
   }
 
   // 👉 Call the setup once your other observers are in place
