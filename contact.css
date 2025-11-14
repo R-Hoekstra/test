@@ -1,6 +1,14 @@
 html, body {
     height: 100%;
-    overflow: hidden; /* Disable scrolling entirely */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body {
+  scrollbar-width: none;           
+}
+body::-webkit-scrollbar {
+  display: none;                   
 }
 
 main {
@@ -16,7 +24,6 @@ a, img, button {
 .nav-link-header {
     padding: 10px 15px;
 }
-
 
 /* === NAME CONTAINER === */
 .name {
