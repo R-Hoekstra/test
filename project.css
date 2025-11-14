@@ -374,25 +374,97 @@ main {
 
 
 
-
-/* === RESPONSIVENESS === */
-@media (max-width: 1100px) {
-  /* .hero-card-right { max-width: min(62vw, 620px); } */
-}
-
-/* Turn off background-attachment: fixed on mobile to avoid scroll bugs */
-@media (max-width: 900px) {
-  .portfolio-card { 
-    flex-direction: column; 
+  @media (max-width: 900px) {
+  /* --- HERO ON PHONES --- */
+  .hero-background {
+    background-attachment: scroll;
+    /* space between fixed header + footer */
+    /* min-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px))); */
+    height: 100dvh;
+    padding: calc(var(--header-h, 0px) + 16px) 16px calc(var(--footer-h-px) + 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    margin: 0 auto;
-    padding: 1rem;
-    max-width: min(90vw, 680px);
-    max-height: calc(100vh - (var(--header-h, 0px) + var(--footer-h-px) + 24px));
   }
-  .portfolio-gallery { order: 2; }
-  .portfolio-info { order: 1; margin-bottom: 1rem; }
 
+  /* stack the two hero cards instead of absolute positioning */
+  .hero-card {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: 100%;
+    max-width: 680px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+  }
+
+  .hero-card-left,
+  .hero-card-right {
+    text-align: left;
+  }
+
+  /* === NEW: make the portfolio slide fill the screen === */
+  .portfolio-wrapper {
+    min-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px)));
+    display: flex;
+    align-items: center;        /* vertically centre card */
+  }
+
+  .portfolio-slider {
+    top: 0;
+    transform: none;            /* no translateY on mobile */
+    height: 96vh;
+    min-height: 0;
+    align-items: center;
+    /* padding-top: 5vh; */
+  }
+
+  /* wider card that still fits between header + footer */
+  .portfolio-card {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-top: 1.5rem;
+    padding-bottom: 1.25rem;
+    padding-left: 2vh;
+    padding-right: 2vh;
+    box-sizing: border-box;
+    max-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px) + 12px));
+  }
+
+  .portfolio-info,
+  .portfolio-gallery {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .portfolio-info {
+    order: 1;
+    /* margin-bottom: 1rem; */
+    text-align: center;
+    align-items: center;
+    font-size: 0.95rem;
+  }
+
+  .portfolio-gallery {
+    order: 2;
+  }
+
+  /* keep images from eating all the height */
+  .gallery-image,
+  .portfolio-gallery img,
+  .info-image {
+    max-height: 32vh;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* header/nav tweaks you already had */
   #header {
     flex-direction: column;
     align-items: center;
@@ -400,40 +472,16 @@ main {
   }
   #name-container a .name { font-size: 1.4rem; }
   .menu-toggle { font-size: clamp(1.4rem, 2.4vh, 2.5rem); }
-  .nav-link { font-size: clamp(1.2rem, 1.2vw, 1.2rem); color: rgba(244, 244, 244); }
+  .nav-link {
+    font-size: clamp(1.2rem, 1.2vw, 1.2rem);
+    color: rgba(244, 244, 244);
+  }
   #name-container a .name::after { display: none; content: none; }
-
-  .hero-background { background-attachment: scroll; }
-
-  /* Cards stack + center on small screens */
-  .hero-card {
-    left: 50%;
-    transform: translateX(-50%);
-    right: auto;
-    bottom: auto;
-    width: min(88vw, 680px);
-  }
-  .hero-card-left { top: 56%; margin-bottom: 10px; }
-  .hero-card-right { top: 70%; }
 }
 
-@media (max-width: 750px) {
-  .portfolio-card {
-    flex-direction: column;
-    text-align: center;
-  }
-  .portfolio-gallery img {
-    max-height: 40vh;
-  }
-  .home-link { display: none; }
-  .arrow { display: none; }
-}
 
-@media (max-width: 600px) {
-  .hero-card-left { top: 58%; }
-  .hero-card-right { top: 74%; }
-  .hero-card { padding: 14px; }
-}
+
+
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
