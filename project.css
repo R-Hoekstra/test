@@ -508,7 +508,7 @@ main {
 }
 
 /* ===== FIX: Allow scrolling when screen height is too small ===== */
-@media (max-height: 700px) {
+@media (max-height: 550px) {
 
   /* Stop forcing the portfolio slider to center vertically */
   .portfolio-slider {
