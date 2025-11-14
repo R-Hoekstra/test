@@ -377,15 +377,15 @@ main {
   @media (max-width: 900px) {
   /* --- HERO ON PHONES --- */
   .hero-background {
-    background-attachment: scroll;
-    /* space between fixed header + footer */
-    /* min-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px))); */
-    height: 100dvh;
+    min-height: 100dvh;
     padding: calc(var(--header-h, 0px) + 16px) 16px calc(var(--footer-h-px) + 40px);
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    background-attachment: scroll;
+    scroll-snap-align: start;
   }
 
   /* stack the two hero cards instead of absolute positioning */
@@ -430,8 +430,8 @@ main {
     margin: 0 auto;
     padding-top: 1.5rem;
     padding-bottom: 1.25rem;
-    padding-left: 2vh;
-    padding-right: 2vh;
+    padding-left: 5vh;
+    padding-right: 5vh;
     box-sizing: border-box;
     max-height: calc(100dvh - (var(--header-h, 0px) + var(--footer-h-px) + 12px));
   }
@@ -477,9 +477,42 @@ main {
     color: rgba(244, 244, 244);
   }
   #name-container a .name::after { display: none; content: none; }
+  .arrow { padding: 0; }
 }
 
+/* ===== FIX: Allow scrolling when screen height is too small ===== */
+@media (max-height: 700px) {
 
+  /* Stop forcing the portfolio slider to center vertically */
+  .portfolio-slider {
+    top: 0 !important;
+    transform: none !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Allow cards to grow naturally and stack */
+  .portfolio-card {
+    max-height: none !important;
+  }
+
+  /* Let the whole page scroll normally */
+  .portfolio-wrapper {
+    min-height: auto !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Optional: allow the hero section to scroll too */
+  .hero-background {
+    height: auto !important;
+    min-height: auto !important;
+    background-attachment: scroll;  /* no fixed bug on short screens */
+    padding-bottom: 60px;
+  }
+}
 
 
 
