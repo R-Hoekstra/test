@@ -34,7 +34,7 @@ body{
 ::selection{background:#fff;color:#000}
 ::-moz-selection{background:#fff;color:#000}
 a,img,button{-webkit-tap-highlight-color:transparent;outline:none;}
-main{ flex:1; opacity: 0; transition: opacity 0.5s ease; } 
+main{ flex:1; opacity: 0; transition: opacity 0.25s ease; } 
 body.loaded main { opacity: 1; }
 
 /* =========================
