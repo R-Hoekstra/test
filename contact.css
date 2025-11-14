@@ -153,7 +153,8 @@ a, img, button {
 
     .contact-card.unified {
         flex-direction: column;
-        height: auto; /* Let it grow naturally based on content */
+        height: 80vh;
+        margin-top: 5vh;
     }
 
     .contact-card.unified .contact-info {
@@ -164,7 +165,7 @@ a, img, button {
     .contact-card.unified .contact-image {
         order: 2; /* Image second */
         flex: none;
-        width: 38%;
+        width: 70%;
         max-height: 40vh; /* Image takes up less than half of viewport height */
         margin: 0 auto; /* Centers the image block horizontally */
         overflow: hidden;
@@ -189,14 +190,24 @@ a, img, button {
         display: none;
     }
     .contact-card.unified .contact-image {
-        width: 45%;
+        width: 75%;
     }
 }
 
 @media (max-width: 500px) {
     .contact-card.unified .contact-image {
-        width: 60%;
+        width: 80%;
     }
+}
+
+@supports (height: 100dvh) {
+  .content-wrapper {
+    min-height: calc(
+        100dvh
+        - var(--footer-h)
+        - env(safe-area-inset-bottom, 0)
+    );
+  }
 }
 
 /* Respect reduced motion */
