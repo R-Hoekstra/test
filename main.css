@@ -233,7 +233,7 @@ body.loaded main { opacity: 1; }
   padding-bottom: env(safe-area-inset-bottom, 0);
   z-index:1000;
 }
-.footer-content p{margin:0; font-size:.9rem;}
+.footer-content p{margin:0; font-size:0.9rem;}
 
 /* === CONTACT page tweaks === */
 body.contact-page #name-container a:hover .name::after { transform: none !important; }
@@ -280,6 +280,7 @@ body.contact-page #name-container a .name::after { display: none !important; }
   .nav-link { font-size: clamp(0.95rem, 3.5vw, 1.05rem); }
   .nav-link-title { font-size: clamp(0.95rem, 3.8vw, 1.1rem); }
   .nav { padding: 6px 8px 10px; row-gap: 3px; }
+  .footer-content p{ font-size:0.8rem;}
 }
 
 @media (prefers-reduced-motion:reduce){

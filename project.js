@@ -158,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function moveSlider(animate = true) {
       const w = wrapper.clientWidth;
+
       slider.style.transition = animate ? "transform 0.45s ease" : "none";
       slider.style.transform = `translate3d(-${index * w}px,0,0)`;
     }

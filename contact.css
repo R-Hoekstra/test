@@ -49,25 +49,25 @@ a, img, button {
 /* === NEW UNIFIED CONTACT CARD === */
 .content-wrapper {
     display: flex;
-    min-height: calc(
-        100vh
-        - var(--footer-h)
-        - env(safe-area-inset-bottom, 0)
-    );
+    min-height: calc(96svh - var(--header-h, 56px) - var(--footer-h-px, 48px) - env(safe-area-inset-bottom, 0px));
     width: 100%;
     align-items: center;
     justify-content: center;
-    /* padding-bottom: env(safe-area-inset-bottom, 0); */
+    padding-top: 4vh;
 }
 
 .contact-card.unified {
     display: flex;
     flex-direction: row;
-    align-items: stretch; /* Ensures both sides have equal height */
+    align-items: stretch;
     justify-content: space-between;
     width: 90%;
     max-width: 1200px;
-    height: 70vh;
+
+    /*  ----  NEW HEIGHT  ----  */
+    height: calc(96svh - var(--header-h, 56px) - var(--footer-h-px, 48px) - env(safe-area-inset-bottom, 0px) - 2rem);
+    /* 2rem = padding of the wrapper (30px on each side → ~1.9rem) – keep a tiny breathing room */
+
     background-color: rgba(20, 29, 39, 0.85);
     padding: 30px;
     border-radius: 12px;
@@ -76,6 +76,7 @@ a, img, button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* keep the hover effect */
 .contact-card.unified:hover {
     box-shadow: 0 6px 18px rgba(0,0,0,0.5);
 }
@@ -192,13 +193,6 @@ a, img, button {
         overflow: hidden;
         display: flex; /* Centers the actual img inside */
         justify-content: center;
-    }
-
-    .contact-card.unified .fixed-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Crop if needed, keep aspect ratio */
-        border-radius: 12px;
     }
 
     #name-container {

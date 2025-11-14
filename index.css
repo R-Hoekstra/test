@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --footer-h:4vh;
+}
+
 /* Make the body span full height and allow vertical centering */
 html, body {
   height: 100%;
@@ -169,7 +173,8 @@ a, img, button {
   color: #ffffff;
   text-align: center;
   width: 100%;
-  padding: 10px 0; /* More flexible than fixed height */
+  padding: 10px 0;
+  min-height: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
   display: flex;
   align-items: center;
   justify-content: center;
