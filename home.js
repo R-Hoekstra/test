@@ -75,15 +75,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ============================================================
-  // Adaptive background-darkness overlay (added, fully scoped)
+  //  Adaptive background-darkness overlay (optimized)
   // ============================================================
 
-  // Config (tweak if you'd like)
   const AO_TARGET_CONTRAST = 4.5; // WCAG AA for normal text
   const AO_L_TARGET_MAX = (1.0 + 0.05) / AO_TARGET_CONTRAST - 0.05; // ≈ 0.183
   const AO_MAX_ALPHA = 0.7; // upper bound to avoid over-darkening
   const AO_DEFAULT_ALPHA = 0.6; // safe fallback when sampling fails
-  const AO_SAMPLE_SIZE = 32; // small for speed
+  const AO_SAMPLE_SIZE = 24; // smaller for speed on mobile
+
+  // Re-use one tiny canvas for all luminance calculations
+  const AO_canvas = document.createElement("canvas");
+  AO_canvas.width = AO_canvas.height = AO_SAMPLE_SIZE;
+  const AO_ctx = AO_canvas.getContext("2d", { willReadFrequently: true });
 
   const AO_toLinear = (c) => {
     c /= 255;
@@ -91,16 +95,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const AO_computeAverageLuminance = (img) => {
-    const w = AO_SAMPLE_SIZE,
-      h = AO_SAMPLE_SIZE;
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    ctx.drawImage(img, 0, 0, w, h);
-    const data = ctx.getImageData(0, 0, w, h).data;
+    // If image didn’t load correctly, bail out
+    if (!img || !img.naturalWidth || !img.naturalHeight) {
+      return null;
+    }
+
+    const w = AO_SAMPLE_SIZE;
+    const h = AO_SAMPLE_SIZE;
+
+    AO_ctx.clearRect(0, 0, w, h);
+    AO_ctx.drawImage(img, 0, 0, w, h);
+    const data = AO_ctx.getImageData(0, 0, w, h).data;
 
     let sum = 0;
+    const pixelCount = data.length / 4;
+
     for (let i = 0; i < data.length; i += 4) {
       const r = AO_toLinear(data[i]);
       const g = AO_toLinear(data[i + 1]);
@@ -108,14 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const L = 0.2126 * r + 0.7152 * g + 0.0722 * b; // WCAG luminance
       sum += L;
     }
-    return sum / (data.length / 4);
+
+    return sum / pixelCount;
   };
 
   const AO_MIN_ALPHA = 0.6;
 
   const AO_alphaForLuminance = (L_img) => {
-    // Debug: confirm live + show luminance
-    console.log("✅ okey it worked ", { L_img });
+    // Bad reading → fall back
+    if (L_img == null || Number.isNaN(L_img)) {
+      return AO_DEFAULT_ALPHA;
+    }
 
     // If already dark, still keep a minimum overlay so hover can brighten
     if (L_img <= AO_L_TARGET_MAX) {
@@ -163,12 +175,16 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         await img.decode();
       } catch {
-        /* ignore decode failures */
+        // Ignore decode failures; we’ll try anyway
       }
 
       let L_img;
       try {
         L_img = AO_computeAverageLuminance(img);
+        if (L_img == null) {
+          AO_applyOverlayAlpha(section, AO_DEFAULT_ALPHA);
+          return;
+        }
       } catch {
         // Canvas read blocked (likely CORS) — fall back
         AO_applyOverlayAlpha(section, AO_DEFAULT_ALPHA);
@@ -186,12 +202,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const targets = document.querySelectorAll("section.bg-image");
     if (!targets.length) return;
 
+    // Prefer IntersectionObserver, but don’t *depend* on it
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((s) => AO_processSection(s));
+      return;
+    }
+
     const io = new IntersectionObserver(
-      (entries) => {
+      (entries, observer) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const s = entry.target;
-            io.unobserve(s);
+            observer.unobserve(s);
             const idle =
               window.requestIdleCallback || ((fn) => setTimeout(fn, 0));
             idle(() => AO_processSection(s));
@@ -205,8 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // --------------------------------------------
-  // Mobile: lighten section when it scrolls into view
-  // (scroll-based, works reliably on Chrome mobile)
+  // Mobile: lighten section when it scrolls into view (debounced)
   // --------------------------------------------
   const bgSections = document.querySelectorAll("section.bg-image");
 
@@ -216,7 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
     (window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 
   if (isTouch && bgSections.length) {
-    const detectActiveSection = () => {
+    let ticking = false;
+
+    const computeActiveSection = () => {
+      ticking = false;
+
       let winner = null;
       let maxVisible = 0;
       const viewportH =
@@ -240,9 +265,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     };
 
-    window.addEventListener("scroll", detectActiveSection, { passive: true });
-    window.addEventListener("resize", detectActiveSection);
-    detectActiveSection(); // run once on load
+    const onScrollOrResize = () => {
+      // requestAnimationFrame = debounce: at most once per frame
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(computeActiveSection);
+      }
+    };
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    // Run once on load so the first section is correct
+    computeActiveSection();
   }
 
   // 👉 Call the setup once your other observers are in place
