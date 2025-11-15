@@ -554,6 +554,7 @@ main {
     padding-top: 20px;
     padding-bottom: 20px;
     user-select: none;
+    touch-action: pan-y;
   }
 
   /* Allow cards to grow naturally and stack */
