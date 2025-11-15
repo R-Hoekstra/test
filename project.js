@@ -148,6 +148,12 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < realCardCount; i++) {
         const span = document.createElement("span");
         span.className = "portfolio-indicator";
+
+        // make them accessible & focusable
+        span.setAttribute("role", "button");
+        span.setAttribute("tabindex", "0");
+        span.setAttribute("aria-label", `Go to project ${i + 1}`);
+
         indicatorsContainer.appendChild(span);
       }
       indicators = Array.from(indicatorsContainer.children);
@@ -309,11 +315,21 @@ document.addEventListener("DOMContentLoaded", () => {
     slider.addEventListener("touchmove", onTouchMove);
     slider.addEventListener("touchend", onTouchEnd);
 
-    // clickable indicators
+    // clickable indicators (mouse + keyboard)
     if (indicators.length) {
       indicators.forEach((el, realIdx) => {
-        el.addEventListener("click", () => {
-          goTo(realIdx + 1); // +1 because of leading clone
+        const goToIndicator = () => {
+          // +1 because index 0 is the left clone
+          goTo(realIdx + 1);
+        };
+
+        el.addEventListener("click", goToIndicator);
+
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            goToIndicator();
+          }
         });
       });
     }
