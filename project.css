@@ -110,8 +110,6 @@ main {
   color: #c6cfda;
 }
 
-
-
 /* === Portfolio Wrapper === */
 .portfolio-wrapper {
   position: relative;
@@ -121,7 +119,7 @@ main {
 
 .hidden-until-load {
   opacity: 0;              /* hide visually */
-  pointer-events: none;    /* prevent clicks */
+  pointer-events: none;
 }
 
 .scroll-indicator {
@@ -523,13 +521,16 @@ main {
   /* ------------------------------------------------------------------
      ARROWS – keep them inside the viewport
      ------------------------------------------------------------------ */
-  .arrow {
+  /* .arrow {
     top: 50%;
     transform: translateY(-50%);
     font-size: clamp(2rem, 5vw, 3rem);
     padding: 0.4rem;
-  }
+  } */
 
+  .arrow {
+    display: none;
+  }
   /* header/nav tweaks you already had */
   #header {
     flex-direction: column;
