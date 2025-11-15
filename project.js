@@ -231,24 +231,83 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "ArrowRight") goTo(index + 1);
     });
 
-    // touch swipe
-    let startX = 0;
-    let endX = 0;
+    // improved touch swipe (more reliable on DuckDuckGo/Safari + scroll-snap)
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchCurrentX = 0;
+    let isTracking = false;
+    let isHorizontalSwipe = false;
 
-    slider.addEventListener("touchstart", (e) => {
-      if (!e.touches.length) return;
-      startX = e.touches[0].clientX;
-    });
+    const swipeThreshold = 50; // minimum horizontal movement in px to trigger a slide
+    const directionLockThreshold = 10; // movement needed before deciding horizontal vs vertical
 
-    slider.addEventListener("touchend", (e) => {
-      endX = e.changedTouches[0].clientX;
-      const threshold = 50;
-      if (startX - endX > threshold) {
-        goTo(index + 1); // swipe left -> next
-      } else if (endX - startX > threshold) {
-        goTo(index - 1); // swipe right -> prev
+    function onTouchStart(e) {
+      if (!e.touches || !e.touches.length) return;
+      const t = e.touches[0];
+
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchCurrentX = t.clientX;
+
+      isTracking = true;
+      isHorizontalSwipe = false;
+    }
+
+    function onTouchMove(e) {
+      if (!isTracking || !e.touches || !e.touches.length) return;
+      const t = e.touches[0];
+
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+
+      // Decide if this gesture is horizontal or vertical
+      if (!isHorizontalSwipe) {
+        if (
+          Math.abs(dx) > directionLockThreshold &&
+          Math.abs(dx) > Math.abs(dy)
+        ) {
+          // This is a horizontal swipe
+          isHorizontalSwipe = true;
+        } else if (
+          Math.abs(dy) > directionLockThreshold &&
+          Math.abs(dy) > Math.abs(dx)
+        ) {
+          // User is scrolling vertically; stop tracking so we don't fight the page scroll
+          isTracking = false;
+          return;
+        }
       }
-    });
+
+      if (isHorizontalSwipe) {
+        // Prevent vertical scroll / scroll-snap while we are swiping horizontally
+        e.preventDefault();
+        touchCurrentX = t.clientX;
+      }
+    }
+
+    function onTouchEnd() {
+      if (!isTracking || !isHorizontalSwipe) {
+        isTracking = false;
+        return;
+      }
+
+      const dx = touchCurrentX - touchStartX;
+
+      if (dx <= -swipeThreshold) {
+        // swipe left -> next
+        goTo(index + 1);
+      } else if (dx >= swipeThreshold) {
+        // swipe right -> previous
+        goTo(index - 1);
+      }
+
+      isTracking = false;
+      isHorizontalSwipe = false;
+    }
+
+    slider.addEventListener("touchstart", onTouchStart);
+    slider.addEventListener("touchmove", onTouchMove);
+    slider.addEventListener("touchend", onTouchEnd);
 
     // clickable indicators
     if (indicators.length) {
