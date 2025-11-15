@@ -267,7 +267,7 @@ main {
 .portfolio-indicator {
   display: block;
   height: 2px;
-  width: 33px; /* "small" line */
+  width: 60px; /* "small" line */
   background: rgba(255, 255, 255, 0.35);
   border-radius: 999px;
   transition: all 0.25s ease;
@@ -275,7 +275,7 @@ main {
 }
 
 .portfolio-indicator.active {
-  width: 99px;              /* ~3x as long as the others */
+  width: 180px;              /* ~3x as long as the others */
   opacity: 1;
   background: #ffffff;
   transform: scaleY(1.4);   /* looks slightly thicker */
@@ -514,10 +514,10 @@ main {
   }
 
   .portfolio-indicator {
-    width: 16px;
+    width: 30px;
   }
   .portfolio-indicator.active {
-    width: 48px;
+    width: 90px;
   }
 
   /* ------------------------------------------------------------------
