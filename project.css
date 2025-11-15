@@ -53,7 +53,7 @@ main {
 
 /* --- ORIGINAL HERO CONTENT (kept for compatibility) --- */
 .hero-content {
-  position: absolute;   /* Absolute relative to hero-background */
+  position: absolute; 
   top: 50%;
   left: 50%;
   transform: translate(-50%, 100%); /* centered, as before */
@@ -171,6 +171,7 @@ main {
   box-sizing: border-box;
   height: 96vh;
   min-height: 96vh;
+  user-select: none;
 }
 
 /* === Portfolio Card Layout === */
@@ -248,6 +249,36 @@ main {
 
 .gallery-image:hover {
   transform: scale(1.02);
+}
+
+/* === PORTFOLIO INDICATORS (bottom lines) === */
+.portfolio-indicators {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(12px, 3vh, 24px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1vw, 10px);
+  pointer-events: none; /* purely visual */
+}
+
+.portfolio-indicator {
+  display: block;
+  height: 2px;
+  width: 33px; /* "small" line */
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  transition: all 0.25s ease;
+  opacity: 0.7;
+}
+
+.portfolio-indicator.active {
+  width: 99px;              /* ~3x as long as the others */
+  opacity: 1;
+  background: #ffffff;
+  transform: scaleY(1.4);   /* looks slightly thicker */
 }
 
 /* Arrows */
@@ -384,7 +415,7 @@ main {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    background-attachment: scroll;
+    background-attachment: fixed;
     scroll-snap-align: start;
   }
 
@@ -428,6 +459,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
   }
 
   /* ------------------------------------------------------------------
@@ -481,6 +513,13 @@ main {
     border-radius: 10px;
   }
 
+  .portfolio-indicator {
+    width: 16px;
+  }
+  .portfolio-indicator.active {
+    width: 48px;
+  }
+
   /* ------------------------------------------------------------------
      ARROWS – keep them inside the viewport
      ------------------------------------------------------------------ */
@@ -513,6 +552,7 @@ main {
     min-height: auto !important;
     padding-top: 20px;
     padding-bottom: 20px;
+    user-select: none;
   }
 
   /* Allow cards to grow naturally and stack */
@@ -531,7 +571,7 @@ main {
   .hero-background {
     height: auto !important;
     min-height: auto !important;
-    background-attachment: scroll;  /* no fixed bug on short screens */
+    background-attachment: scroll;
     padding-bottom: 60px;
   }
 }

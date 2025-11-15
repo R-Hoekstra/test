@@ -127,8 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ================================
-     PORTFOLIO SLIDER
-  ================================= */
+   PORTFOLIO SLIDER
+================================= */
   (function initPortfolioSlider() {
     const slider = document.querySelector(".portfolio-slider");
     const wrapper = document.querySelector(".portfolio-wrapper");
@@ -138,15 +138,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!slider || !wrapper || !cards.length) return;
 
+    // --- indicators based on REAL cards (before cloning) ---
+    const realCardCount = cards.length;
+    const indicatorsContainer = wrapper.querySelector(".portfolio-indicators");
+    let indicators = [];
+
+    if (indicatorsContainer && realCardCount > 0) {
+      indicatorsContainer.innerHTML = "";
+      for (let i = 0; i < realCardCount; i++) {
+        const span = document.createElement("span");
+        span.className = "portfolio-indicator";
+        indicatorsContainer.appendChild(span);
+      }
+      indicators = Array.from(indicatorsContainer.children);
+    }
+
+    // --- clone first & last for infinite loop ---
     const firstClone = cards[0].cloneNode(true);
     const lastClone = cards[cards.length - 1].cloneNode(true);
     slider.appendChild(firstClone);
     slider.insertBefore(lastClone, cards[0]);
     cards = slider.querySelectorAll(".portfolio-card");
 
-    let index = 1;
+    let index = 1; // start on first REAL card
     let isLocked = false;
 
+    // map cloned index -> real index [0..realCardCount-1]
+    function getRealIndex(idx) {
+      if (!realCardCount) return 0;
+      if (idx === 0) return realCardCount - 1; // left clone
+      if (idx === cards.length - 1) return 0; // right clone
+      return idx - 1;
+    }
+
+    function updateIndicatorsByIndex(idx) {
+      if (!indicators.length) return;
+      const realIdx = getRealIndex(idx);
+      indicators.forEach((el, i) => {
+        el.classList.toggle("active", i === realIdx);
+      });
+    }
+
+    // width & movement are the same as your original, working version
     function setCardWidths() {
       const w = wrapper.clientWidth;
       cards.forEach((c) => {
@@ -158,23 +191,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function moveSlider(animate = true) {
       const w = wrapper.clientWidth;
-
       slider.style.transition = animate ? "transform 0.45s ease" : "none";
       slider.style.transform = `translate3d(-${index * w}px,0,0)`;
     }
 
     setCardWidths();
     moveSlider(false);
+    updateIndicatorsByIndex(index);
 
+    // handle jumping from clones back to real slides
     slider.addEventListener("transitionend", () => {
       const lastRealIndex = cards.length - 2;
       if (index === cards.length - 1) {
-        index = 1;
+        index = 1; // from right clone to first real
         moveSlider(false);
       } else if (index === 0) {
-        index = lastRealIndex;
+        index = lastRealIndex; // from left clone to last real
         moveSlider(false);
       }
+      updateIndicatorsByIndex(index);
       requestAnimationFrame(() => (isLocked = false));
     });
 
@@ -182,29 +217,49 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isLocked) return;
       isLocked = true;
       index = i;
+      updateIndicatorsByIndex(index);
       moveSlider(true);
     }
 
+    // arrows
     prevBtn?.addEventListener("click", () => goTo(index - 1));
     nextBtn?.addEventListener("click", () => goTo(index + 1));
 
+    // keyboard
     document.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") goTo(index - 1);
       if (e.key === "ArrowRight") goTo(index + 1);
     });
 
-    let startX = 0,
-      endX = 0;
+    // touch swipe
+    let startX = 0;
+    let endX = 0;
+
     slider.addEventListener("touchstart", (e) => {
+      if (!e.touches.length) return;
       startX = e.touches[0].clientX;
     });
+
     slider.addEventListener("touchend", (e) => {
       endX = e.changedTouches[0].clientX;
       const threshold = 50;
-      if (startX - endX > threshold) goTo(index + 1);
-      else if (endX - startX > threshold) goTo(index - 1);
+      if (startX - endX > threshold) {
+        goTo(index + 1); // swipe left -> next
+      } else if (endX - startX > threshold) {
+        goTo(index - 1); // swipe right -> prev
+      }
     });
 
+    // clickable indicators
+    if (indicators.length) {
+      indicators.forEach((el, realIdx) => {
+        el.addEventListener("click", () => {
+          goTo(realIdx + 1); // +1 because of leading clone
+        });
+      });
+    }
+
+    // keep layout correct on resize
     window.addEventListener("resize", () => {
       setCardWidths();
       moveSlider(false);
