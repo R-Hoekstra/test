@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let index = 1; // start on first REAL card
     let isLocked = false;
+    let transitionSafetyTimer = null;
 
     // map cloned index -> real index [0..realCardCount-1]
     function getRealIndex(idx) {
@@ -205,8 +206,10 @@ document.addEventListener("DOMContentLoaded", () => {
     moveSlider(false);
     updateIndicatorsByIndex(index);
 
-    // handle jumping from clones back to real slides
-    slider.addEventListener("transitionend", () => {
+    slider.addEventListener("transitionend", (e) => {
+      // Only react to the main transform transition on the slider itself
+      if (e.target !== slider || e.propertyName !== "transform") return;
+
       const lastRealIndex = cards.length - 2;
       if (index === cards.length - 1) {
         index = 1; // from right clone to first real
@@ -216,15 +219,41 @@ document.addEventListener("DOMContentLoaded", () => {
         moveSlider(false);
       }
       updateIndicatorsByIndex(index);
-      requestAnimationFrame(() => (isLocked = false));
+
+      // Clear safety timer if it exists
+      if (transitionSafetyTimer) {
+        clearTimeout(transitionSafetyTimer);
+        transitionSafetyTimer = null;
+      }
+
+      requestAnimationFrame(() => {
+        isLocked = false;
+      });
     });
 
     function goTo(i) {
+      // If we’re already on this slide, don’t lock or animate
+      if (i === index) {
+        // Just ensure everything is in sync
+        moveSlider(false);
+        updateIndicatorsByIndex(index);
+        return;
+      }
+
       if (isLocked) return;
       isLocked = true;
       index = i;
       updateIndicatorsByIndex(index);
       moveSlider(true);
+
+      // Safety unlock in case "transitionend" doesn’t fire
+      if (transitionSafetyTimer) {
+        clearTimeout(transitionSafetyTimer);
+      }
+      transitionSafetyTimer = setTimeout(() => {
+        isLocked = false;
+        transitionSafetyTimer = null;
+      }, 600); // a bit longer than the CSS transition (0.45s)
     }
 
     // arrows
