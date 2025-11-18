@@ -267,9 +267,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // drag + snap swipe with smoothing (more reliable on DuckDuckGo)
-    // now with dynamic threshold:
+    // dynamic threshold:
     //  - quick swipe: 10% width
-    //  - slow drag:  50% width (whichever card is more visible wins)
+    //  - slow drag:  50% width (whichever card is more visible)
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
@@ -280,6 +280,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let touchStartTime = 0;
     let lastTouchTime = 0;
+
+    let scrollLocked = false; // 🔒 blocks vertical scroll once we’re swiping horizontally
 
     const directionLockThreshold = 12; // px before we decide direction
     const maxStepRatio = 0.18; // max ~18% of card width per move event
@@ -302,6 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hasDirectionLock = false;
       isHorizontal = false;
       lastDxForTransform = 0;
+      scrollLocked = false; // reset at start of gesture
 
       // disable animation while dragging
       slider.style.transition = "none";
@@ -325,14 +328,25 @@ document.addEventListener("DOMContentLoaded", () => {
           hasDirectionLock = true;
           // slight bias toward vertical so pull-to-refresh still works if mostly vertical
           isHorizontal = Math.abs(dx) > Math.abs(dy) * 1.2;
+
+          // 🔒 once we decide it's horizontal, lock scrolling
+          if (isHorizontal) {
+            scrollLocked = true;
+          }
         }
       }
 
       // If we decided it's vertical: stop dragging, let page handle scroll / pull-to-refresh
       if (hasDirectionLock && !isHorizontal) {
         isDragging = false;
+        scrollLocked = false;
         slider.style.transition = "";
         return;
+      }
+
+      // If scroll is locked for this gesture, block page scroll
+      if (scrollLocked) {
+        e.preventDefault();
       }
 
       if (!isHorizontal) {
@@ -341,7 +355,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // From here on, we own the gesture
-      e.preventDefault();
       lastTouchX = t.clientX;
 
       const w = wrapper.clientWidth;
@@ -372,6 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isDragging = false;
       hasDirectionLock = false;
       isHorizontal = false;
+      scrollLocked = false; // 🔓 allow page scroll again
 
       if (!wasDragging || !wasHorizontal) {
         slider.style.transition = "";
@@ -382,11 +396,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const w = wrapper.clientWidth;
       const absDx = Math.abs(totalDx);
 
-      // ---- NEW: dynamic threshold based on swipe speed ----
+      // ---- dynamic threshold based on swipe duration (quick vs slow) ----
       const durationMs = Math.max(1, lastTouchTime - touchStartTime);
-      const isQuickSwipe = durationMs < QUICK_SWIPE_TIME;
+      const isQuickSwipe = durationMs < QUICK_SWIPE_TIME; // e.g. 180ms
 
-      // quick = only 10% of width, slow = 50% (whichever card is more visible)
+      // quick = 10% width, slow = 50% width (whichever card is more visible)
       const fastThreshold = w * 0.1;
       const slowThreshold = w * 0.5;
       const threshold = isQuickSwipe ? fastThreshold : slowThreshold;
@@ -423,6 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
       endDrag();
     }
 
+    // IMPORTANT: passive:false so preventDefault actually works
     slider.addEventListener("touchstart", onTouchStart, { passive: false });
     slider.addEventListener("touchmove", onTouchMove, { passive: false });
     slider.addEventListener("touchend", onTouchEnd);
