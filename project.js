@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "ArrowRight") goTo(index + 1);
     });
 
-    // drag + snap swipe with smoothing (more reliable on DuckDuckGo)
+    // drag + snap swipe with smoothing (DuckDuckGo-friendly)
     // dynamic threshold:
     //  - quick swipe: 10% width
     //  - slow drag:  50% width (whichever card is more visible)
@@ -302,6 +302,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const maxStepRatio = 0.18; // max ~18% of card width per move event
     const QUICK_SWIPE_TIME = 180; // ms: shorter than this = "quick swipe"
 
+    // --- NEW: global scroll locker so the page can't move while swiping ---
+    let globalTouchMoveBlocker = null;
+
+    function enableGlobalScrollLock() {
+      if (globalTouchMoveBlocker) return;
+      globalTouchMoveBlocker = function (e) {
+        // Stop vertical scrolling anywhere on the page during a horizontal swipe
+        e.preventDefault();
+      };
+      window.addEventListener("touchmove", globalTouchMoveBlocker, {
+        passive: false,
+      });
+    }
+
+    function disableGlobalScrollLock() {
+      if (!globalTouchMoveBlocker) return;
+      window.removeEventListener("touchmove", globalTouchMoveBlocker);
+      globalTouchMoveBlocker = null;
+    }
+
     function onTouchStart(e) {
       if (!e.touches || e.touches.length !== 1) return; // ignore multi-touch
       if (isLocked) return; // don't start a drag during a transition
@@ -320,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isHorizontal = false;
       lastDxForTransform = 0;
       scrollLocked = false; // reset at start of gesture
+      disableGlobalScrollLock(); // safety: make sure it's off
 
       // disable animation while dragging
       slider.style.transition = "none";
@@ -344,9 +365,10 @@ document.addEventListener("DOMContentLoaded", () => {
           // slight bias toward vertical so pull-to-refresh still works if mostly vertical
           isHorizontal = Math.abs(dx) > Math.abs(dy) * 1.2;
 
-          // 🔒 once we decide it's horizontal, lock scrolling
           if (isHorizontal) {
+            // 🔒 once we decide it's horizontal, lock scrolling (local + global)
             scrollLocked = true;
+            enableGlobalScrollLock();
           }
         }
       }
@@ -355,6 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (hasDirectionLock && !isHorizontal) {
         isDragging = false;
         scrollLocked = false;
+        disableGlobalScrollLock();
         slider.style.transition = "";
         return;
       }
@@ -395,6 +418,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function endDrag() {
       const wasDragging = isDragging;
       const wasHorizontal = isHorizontal;
+
+      // always unlock global scroll at the end of a gesture
+      disableGlobalScrollLock();
 
       // reset flags first
       isDragging = false;
