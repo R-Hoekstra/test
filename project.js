@@ -352,10 +352,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function endDrag() {
-      if (!isDragging || !isHorizontal) {
-        isDragging = false;
-        hasDirectionLock = false;
-        isHorizontal = false;
+      const wasDragging = isDragging;
+      const wasHorizontal = isHorizontal;
+
+      // reset flags first
+      isDragging = false;
+      hasDirectionLock = false;
+      isHorizontal = false;
+
+      if (!wasDragging || !wasHorizontal) {
         slider.style.transition = "";
         return;
       }
@@ -364,6 +369,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const w = wrapper.clientWidth;
       const threshold = w * 0.25; // how far you need to drag to change slide
 
+      // 👉 NEW: smooth snap-back when you come up short
+      if (Math.abs(totalDx) < threshold) {
+        const baseOffset = -index * w;
+        slider.style.transition = "transform 0.25s ease-out";
+        slider.style.transform = `translate3d(${baseOffset}px, 0, 0)`;
+        return;
+      }
+
+      // Otherwise, go to the next / previous slide as before
       let targetIndex = index;
       if (totalDx <= -threshold) {
         // swipe left -> next
@@ -373,12 +387,8 @@ document.addEventListener("DOMContentLoaded", () => {
         targetIndex = index - 1;
       }
 
-      isDragging = false;
-      hasDirectionLock = false;
-      isHorizontal = false;
+      // Let goTo() handle its own transition + infinite-loop logic
       slider.style.transition = "";
-
-      // let existing logic handle snapping + infinite loop
       goTo(targetIndex);
     }
 
