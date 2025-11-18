@@ -127,8 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ================================
-   PORTFOLIO SLIDER
-================================= */
+     PORTFOLIO SLIDER
+  ================================= */
   (function initPortfolioSlider() {
     const slider = document.querySelector(".portfolio-slider");
     const wrapper = document.querySelector(".portfolio-wrapper");
@@ -137,6 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextBtn = document.querySelector(".arrow-right");
 
     if (!slider || !wrapper || !cards.length) return;
+
+    // 🔓 Make sure wrapper is interactive even if hidden-until-load sticks around
+    wrapper.classList.remove("hidden-until-load");
+    wrapper.style.pointerEvents = "auto";
 
     // --- indicators based on REAL cards (before cloning) ---
     const realCardCount = cards.length;
@@ -186,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // width & movement are the same as your original, working version
     function setCardWidths() {
       const w = wrapper.clientWidth;
       cards.forEach((c) => {
@@ -232,9 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function goTo(i) {
-      // If we’re already on this slide, don’t lock or animate
+      if (!cards.length) return;
+
+      // clamp target index so we never go outside [0, cards.length - 1]
+      const maxIndex = cards.length - 1;
+      if (i < 0) i = 0;
+      if (i > maxIndex) i = maxIndex;
+
+      // If we’re already on this slide, just sync and bail
       if (i === index) {
-        // Just ensure everything is in sync
         moveSlider(false);
         updateIndicatorsByIndex(index);
         return;
@@ -253,12 +262,18 @@ document.addEventListener("DOMContentLoaded", () => {
       transitionSafetyTimer = setTimeout(() => {
         isLocked = false;
         transitionSafetyTimer = null;
-      }, 600); // a bit longer than the CSS transition (0.45s)
+      }, 600); // a bit longer than the CSS transition (0.35s)
     }
 
     // arrows
-    prevBtn?.addEventListener("click", () => goTo(index - 1));
-    nextBtn?.addEventListener("click", () => goTo(index + 1));
+    prevBtn?.addEventListener("click", () => {
+      if (isLocked) return;
+      goTo(index - 1);
+    });
+    nextBtn?.addEventListener("click", () => {
+      if (isLocked) return;
+      goTo(index + 1);
+    });
 
     // keyboard
     document.addEventListener("keydown", (e) => {
@@ -462,11 +477,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // keep layout correct on resize
-    window.addEventListener("resize", () => {
+    // keep layout correct on resize + bfcache restore
+    const refreshLayout = () => {
       setCardWidths();
       moveSlider(false);
-    });
+      updateIndicatorsByIndex(index);
+    };
+
+    window.addEventListener("resize", refreshLayout);
+    window.addEventListener("pageshow", refreshLayout);
   })();
 });
 

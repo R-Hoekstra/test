@@ -193,6 +193,7 @@ body.loaded main { opacity: 1; }
   align-items:flex-start;
   text-align:right;
   z-index: 1060;
+  pointer-events: none;
 }
 .nav{
   list-style: none;
@@ -320,7 +321,7 @@ body.contact-page #name-container a .name::after { display: none !important; }
 
   /* Drawer width adapts a bit wider on phones */
   .menu-overlay.active{
-    width: clamp(250px, 70vw, 320px);
+    width: clamp(280px, 75vw, 340px);
   }
 
   /* Menu block spacing */
