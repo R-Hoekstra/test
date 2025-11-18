@@ -453,6 +453,7 @@ main {
     display: flex;
     align-items: center;
     scroll-snap-align: start;
+    overscroll-behavior-y: contain;
   }
 
   /* ----- PORTFOLIO SLIDER ----- */
