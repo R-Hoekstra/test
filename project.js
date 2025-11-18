@@ -266,19 +266,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "ArrowRight") goTo(index + 1);
     });
 
-    // drag + snap swipe: card follows your finger, then snaps to the closest slide
+    // drag + snap swipe with smoothing (more reliable on DuckDuckGo)
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
     let isDragging = false;
     let hasDirectionLock = false;
     let isHorizontal = false;
+    let lastDxForTransform = 0; // smoothed drag distance
 
-    const directionLockThreshold = 10; // px before deciding horizontal vs vertical
+    const directionLockThreshold = 12; // px before we decide direction
+    const maxStepRatio = 0.18; // max ~18% of card width per move event
 
     function onTouchStart(e) {
-      if (!e.touches || !e.touches.length) return;
-      if (isLocked) return; // don't start a drag while a transition is running
+      if (!e.touches || e.touches.length !== 1) return; // ignore multi-touch
+      if (isLocked) return; // don't start a drag during a transition
 
       const t = e.touches[0];
       touchStartX = t.clientX;
@@ -288,8 +290,9 @@ document.addEventListener("DOMContentLoaded", () => {
       isDragging = true;
       hasDirectionLock = false;
       isHorizontal = false;
+      lastDxForTransform = 0;
 
-      // while dragging, we don't want the slider to animate
+      // disable animation while dragging
       slider.style.transition = "none";
     }
 
@@ -300,80 +303,98 @@ document.addEventListener("DOMContentLoaded", () => {
       const dx = t.clientX - touchStartX;
       const dy = t.clientY - touchStartY;
 
-      // Decide if this gesture is horizontal or vertical
+      // Decide if this gesture is horizontal vs vertical
       if (!hasDirectionLock) {
         if (
           Math.abs(dx) > directionLockThreshold ||
           Math.abs(dy) > directionLockThreshold
         ) {
           hasDirectionLock = true;
-          isHorizontal = Math.abs(dx) > Math.abs(dy);
+          // slight bias toward vertical so pull-to-refresh still works if mostly vertical
+          isHorizontal = Math.abs(dx) > Math.abs(dy) * 1.2;
         }
       }
 
-      // If it turned out to be vertical scrolling, stop the drag and let page scroll
+      // If we decided it's vertical: stop dragging, let page handle scroll / pull-to-refresh
       if (hasDirectionLock && !isHorizontal) {
         isDragging = false;
-        slider.style.transition = ""; // restore default
+        slider.style.transition = "";
         return;
       }
 
       if (!isHorizontal) {
-        // not decided yet – don't interfere with scrolling
+        // still undecided, don't interfere with scroll yet
         return;
       }
 
-      // We’ve locked to a horizontal gesture now
+      // From here on, we own the gesture
       e.preventDefault();
-
       lastTouchX = t.clientX;
 
       const w = wrapper.clientWidth;
-      const baseOffset = -index * w; // where the slider "should" be
-      // Clamp drag distance so you only ever see at most the neighbour slide
-      const clampedDx = Math.max(Math.min(dx, w), -w);
+      const baseOffset = -index * w;
+
+      // --- SPEED LIMIT: smooth the drag so fast flicks don't jump too far in one frame ---
+      const maxStep = w * maxStepRatio; // max px change per event
+      let step = dx - lastDxForTransform;
+      if (step > maxStep) step = maxStep;
+      if (step < -maxStep) step = -maxStep;
+      lastDxForTransform += step;
+
+      // Never show more than one neighbour card
+      const maxDrag = w;
+      const clampedDx = Math.max(
+        Math.min(lastDxForTransform, maxDrag),
+        -maxDrag
+      );
 
       slider.style.transform = `translate3d(${baseOffset + clampedDx}px, 0, 0)`;
     }
 
-    function onTouchEnd() {
+    function endDrag() {
       if (!isDragging || !isHorizontal) {
-        // nothing meaningful happened
         isDragging = false;
         hasDirectionLock = false;
         isHorizontal = false;
-        slider.style.transition = ""; // restore default
+        slider.style.transition = "";
         return;
       }
 
-      const dx = lastTouchX - touchStartX;
+      const totalDx = lastTouchX - touchStartX;
       const w = wrapper.clientWidth;
-      const threshold = w * 0.25; // ~25% of card width
+      const threshold = w * 0.25; // how far you need to drag to change slide
 
       let targetIndex = index;
-
-      // Decide where to snap:
-      //  - if dragged more than 25% left → next slide
-      //  - if dragged more than 25% right → previous slide
-      //  - otherwise snap back to current slide
-      if (dx <= -threshold) {
-        targetIndex = index + 1; // swipe left → next
-      } else if (dx >= threshold) {
-        targetIndex = index - 1; // swipe right → prev
+      if (totalDx <= -threshold) {
+        // swipe left -> next
+        targetIndex = index + 1;
+      } else if (totalDx >= threshold) {
+        // swipe right -> prev
+        targetIndex = index - 1;
       }
 
       isDragging = false;
       hasDirectionLock = false;
       isHorizontal = false;
-
-      // Let goTo() handle the smooth snap + infinite loop logic
       slider.style.transition = "";
+
+      // let existing logic handle snapping + infinite loop
       goTo(targetIndex);
+    }
+
+    function onTouchEnd() {
+      endDrag();
+    }
+
+    function onTouchCancel() {
+      // some browsers (DuckDuckGo/WebView) fire cancel instead of end
+      endDrag();
     }
 
     slider.addEventListener("touchstart", onTouchStart, { passive: false });
     slider.addEventListener("touchmove", onTouchMove, { passive: false });
     slider.addEventListener("touchend", onTouchEnd);
+    slider.addEventListener("touchcancel", onTouchCancel);
 
     // clickable indicators (mouse + keyboard)
     if (indicators.length) {
