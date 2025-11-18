@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function moveSlider(animate = true) {
       const w = wrapper.clientWidth;
-      slider.style.transition = animate ? "transform 0.45s ease" : "none";
+      slider.style.transition = animate ? "transform 0.6s ease" : "none";
       slider.style.transform = `translate3d(-${index * w}px,0,0)`;
     }
 
@@ -267,6 +267,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // drag + snap swipe with smoothing (more reliable on DuckDuckGo)
+    // now with dynamic threshold:
+    //  - quick swipe: 10% width
+    //  - slow drag:  50% width (whichever card is more visible wins)
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
@@ -275,8 +278,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let isHorizontal = false;
     let lastDxForTransform = 0; // smoothed drag distance
 
+    let touchStartTime = 0;
+    let lastTouchTime = 0;
+
     const directionLockThreshold = 12; // px before we decide direction
     const maxStepRatio = 0.18; // max ~18% of card width per move event
+    const QUICK_SWIPE_TIME = 180; // ms: shorter than this = "quick swipe"
 
     function onTouchStart(e) {
       if (!e.touches || e.touches.length !== 1) return; // ignore multi-touch
@@ -286,6 +293,10 @@ document.addEventListener("DOMContentLoaded", () => {
       touchStartX = t.clientX;
       touchStartY = t.clientY;
       lastTouchX = touchStartX;
+
+      const now = Date.now();
+      touchStartTime = now;
+      lastTouchTime = now;
 
       isDragging = true;
       hasDirectionLock = false;
@@ -302,6 +313,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const t = e.touches[0];
       const dx = t.clientX - touchStartX;
       const dy = t.clientY - touchStartY;
+
+      lastTouchTime = Date.now();
 
       // Decide if this gesture is horizontal vs vertical
       if (!hasDirectionLock) {
@@ -367,17 +380,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const totalDx = lastTouchX - touchStartX;
       const w = wrapper.clientWidth;
-      const threshold = w * 0.25; // how far you need to drag to change slide
+      const absDx = Math.abs(totalDx);
 
-      // 👉 NEW: smooth snap-back when you come up short
-      if (Math.abs(totalDx) < threshold) {
+      // ---- NEW: dynamic threshold based on swipe speed ----
+      const durationMs = Math.max(1, lastTouchTime - touchStartTime);
+      const isQuickSwipe = durationMs < QUICK_SWIPE_TIME;
+
+      // quick = only 10% of width, slow = 50% (whichever card is more visible)
+      const fastThreshold = w * 0.1;
+      const slowThreshold = w * 0.5;
+      const threshold = isQuickSwipe ? fastThreshold : slowThreshold;
+
+      // 👉 smooth snap-back when you come up short
+      if (absDx < threshold) {
         const baseOffset = -index * w;
         slider.style.transition = "transform 0.25s ease-out";
         slider.style.transform = `translate3d(${baseOffset}px, 0, 0)`;
         return;
       }
 
-      // Otherwise, go to the next / previous slide as before
+      // Otherwise, go to the next / previous slide
       let targetIndex = index;
       if (totalDx <= -threshold) {
         // swipe left -> next
