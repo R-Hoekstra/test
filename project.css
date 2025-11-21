@@ -588,10 +588,10 @@ main {
   .arrow { display: none; }
 
   .portfolio-indicator { 
-    width: 24px; 
+    width: 40px; 
     height: 7px; 
   }
-  .portfolio-indicator.active { width: 72px; }
+  .portfolio-indicator.active { width: 120px; }
 
   /* ----- HEADER TWEAKS (if you still have them) ----- */
   #header {
