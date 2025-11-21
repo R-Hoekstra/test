@@ -216,11 +216,13 @@ main {
   border-radius: 10px;
   margin-top: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease;
-}
 
-.info-image:hover {
-  transform: scale(1.02);
+  /* smoother hover without zoom */
+  transition:
+    box-shadow 0.35s ease,
+    filter 0.35s ease,
+    transform 0.35s ease;
+  will-change: box-shadow, filter, transform;
 }
 
 /* Image column */
@@ -237,16 +239,17 @@ main {
   border-radius: 10px;
 }
 
+/* Gallery images */
 .gallery-image {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
   cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.gallery-image:hover {
-  transform: scale(1.02);
+  transition:
+    box-shadow 0.35s ease,
+    filter 0.35s ease,
+    transform 0.35s ease;
+  will-change: box-shadow, filter, transform;
 }
 
 /* === PORTFOLIO INDICATORS (bottom lines) === */
@@ -256,36 +259,45 @@ main {
   bottom: clamp(12px, 3vh, 24px);
   transform: translateX(-50%);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   gap: clamp(6px, 1vw, 10px);
-  pointer-events: auto; 
+  pointer-events: auto;
 }
 
+/* Make the span a bigger "hit area" */
 .portfolio-indicator {
+  position: relative;
   display: block;
-  height: 2px;
-  width: 60px; /* "small" line */
+  width: 60px;          /* small line width */
+  height: 18px;         /* BIGGER clickable/hover area */
+  background: transparent;
+  cursor: pointer;
+  transition: width 0.25s ease;
+}
+
+/* Draw the actual visible line */
+.portfolio-indicator::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px; /* visible thickness */
   background: rgba(255, 255, 255, 0.35);
   border-radius: 999px;
-  transition: all 0.25s ease;
   opacity: 0.7;
-  cursor: pointer;           /* shows it’s clickable */
+  transform-origin: center bottom; /* grow UPWARD */
+  transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
 }
 
 /* active (current slide) */
 .portfolio-indicator.active {
-  width: 180px;              /* ~3x as long as the others */
-  opacity: 1;
-  background: #ffffff;
-  transform: scaleY(1.4);    /* slightly thicker line */
+  width: 180px; /* ~3x as long */
 }
 
-/* hover / focus: slightly taller for “clickability” feedback */
-.portfolio-indicator:hover,
-.portfolio-indicator:focus-visible {
-  transform: scaleY(1.8);
+.portfolio-indicator.active::before {
+  background: #ffffff;
   opacity: 1;
+  transform: scaleY(1.4); /* slightly thicker */
 }
 
 /* Arrows */
@@ -332,14 +344,22 @@ main {
   align-items: center;         /* vertical center */
   overflow: hidden;
 }
-.lightbox-content {
-  margin: auto;
+/* wrapper so arrows can anchor to the image */
+.lightbox-img-wrapper{
+  position: relative;
+  display: inline-block;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+/* image sizing stays responsive */
+.lightbox-content{
   display: block;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 90vw;
+  max-height: 80vh;
+  height: auto;
+  width: auto;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  object-fit: contain;
 }
 
 /* Visually-hidden helper for a11y text */
@@ -567,7 +587,10 @@ main {
   /* ----- ARROWS & INDICATORS ----- */
   .arrow { display: none; }
 
-  .portfolio-indicator { width: 24px; }
+  .portfolio-indicator { 
+    width: 24px; 
+    height: 7px; 
+  }
   .portfolio-indicator.active { width: 72px; }
 
   /* ----- HEADER TWEAKS (if you still have them) ----- */
@@ -578,6 +601,42 @@ main {
   }
   #name-container a .name { font-size: 1.4rem; }
   #name-container a .name::after { display: none; content: none; }
+  .lightbox-img-wrapper{
+    max-width: 96vw;
+    max-height: 70vh; /* leaves room for arrows below */
+  }
+
+  .lightbox-content{
+    max-width: 96vw;
+    max-height: 70vh;
+    width: 100%;
+  }
+
+  .lightbox .prev,
+  .lightbox .next{
+    position: absolute;
+    top: 100%;          /* exactly below image */
+    margin-top: 12px;   /* <-- constant gap from image */
+    transform: none;
+
+    font-size: 2.4rem;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 999px;
+
+    color: #fff;
+    -webkit-tap-highlight-color: transparent; /* no blue tap glow */
+  }
+
+  .lightbox .prev{ left: 18%; }
+  .lightbox .next{ right: 18%; }
+
+  /* "blue only while pressing" */
+  .lightbox .prev:active,
+  .lightbox .next:active{ color: #9cd3ff; }
+
+  .lightbox .prev:focus,
+  .lightbox .next:focus{ color: #fff; outline: none; }
 }
 
 /* ==============================================================
@@ -626,7 +685,96 @@ main {
   }
 }
 
+@media (min-width: 901px){
+    .lightbox .prev,
+    .lightbox .next{
+      top: 50%;
+      transform: translateY(-50%);
+  }
+}
 
+@media (min-width: 901px){
+
+  /* make wrapper the positioning context */
+  .lightbox-img-wrapper{
+    position: relative;
+    display: inline-block;
+  }
+
+  .lightbox .prev,
+  .lightbox .next{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    padding: 16px;
+
+    background: rgba(0,0,0,0.25);
+    border-radius: 999px;
+    color: #fff;
+
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  /* push OUTSIDE image edge (responsive distance) */
+  .lightbox .prev{
+    left: calc(-1 * clamp(28px, 4vw, 72px));
+  }
+  .lightbox .next{
+    right: calc(-1 * clamp(28px, 4vw, 72px));
+  }
+
+  /* blue ONLY while pressing */
+  .lightbox .prev:active,
+  .lightbox .next:active{
+    color: #9cd3ff;
+  }
+
+  /* after click/focus, always return to white */
+  .lightbox .prev:focus,
+  .lightbox .next:focus{
+    color: #fff;
+  }
+}
+
+/* Desktop-only hover/focus: grow upward for clickability */
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-indicator:hover::before,
+  .portfolio-indicator:focus-visible::before {
+    transform: scaleY(2.2);
+    opacity: 1;
+  }
+  .info-image:hover,
+  .gallery-image:hover {
+    /* subtle lift (not bigger) */
+    transform: translateY(-3px);
+
+    /* soft "floating card" shadow */
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+
+    /* gentle punch, feels responsive */
+    filter: brightness(1.06) contrast(1.03) saturate(1.06);
+  }
+  /* keyboard users get same nice feedback */
+  .info-image:focus-visible,
+  .gallery-image:focus-visible {
+    transform: translateY(-3px);
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(255, 255, 255, 0.12);
+    filter: brightness(1.06) contrast(1.03) saturate(1.06);
+    outline: none;
+  }
+
+  .portfolio-slider,
+  .portfolio-slider * {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
