@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Start slideshow with a bit more buffer to ensure smooth cycling
-  let interval = setInterval(showNextSlide, 7000);
+  let interval = setInterval(showNextSlide, 4000);
 
   // Pause/resume when the tab visibility changes to keep timing smooth and save CPU
   document.addEventListener("visibilitychange", () => {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(interval);
     } else {
       clearInterval(interval);
-      interval = setInterval(showNextSlide, 6000);
+      interval = setInterval(showNextSlide, 4000);
     }
   });
 });
